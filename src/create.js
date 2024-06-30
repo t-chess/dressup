@@ -3,50 +3,72 @@ import gameState from "./gameState";
 function create() {
   gameState.bg = this.add.sprite(640, 480, "bg").setPosition(320, 240);
 
-  const addSet = (name, total, x, y) => {
+  const addSet = (who, what, x, y) => {
+    let name = who + what;
+    let total = gameState[who][what + "total"];
     for (var i = 1; i <= total; i++) {
-      name += i;
-      gameState[name] = this.add.sprite(x, y, name);
+      gameState[name + i] = this.add.sprite(x, y, name + i);
       if (i !== 1) {
-        gameState[name].visible = false;
+        gameState[name + i].visible = false;
       }
     }
   };
 
   // MOM
   gameState.mother = this.add.sprite(640, 480, "mother").setPosition(250, 248);
-  addSet("hair", 5, 245, 95);
+  addSet("mom", "bottom", 214, 358);
+  addSet("mom", "top", 236, 283);
+  addSet("mom", "hair", 245, 95);
 
   // GAIL
-  gameState.gail = this.add.sprite(640, 480, "gail").setPosition(380, 260);
-  addSet("hand", 1, 320, 152);
-  addSet("face", 1, 340, 95);
+  gameState.abigail = this.add
+    .sprite(640, 480, "abigail")
+    .setPosition(380, 260);
+  addSet("gail", "hand", 320, 152);
+  addSet("gail", "face", 340, 95);
 
   // left buttons
+  const updateButtons = () => {
+    const buttons = {
+      hair: gameState.hairbtn,
+      top: gameState.topsbtn,
+      bottom: gameState.bottomsbtn,
+    };
+
+    Object.keys(buttons).forEach((section) => {
+      buttons[section].preFX.clear();
+      if (gameState.currentSection === section) {
+        buttons[section].preFX.addColorMatrix().negative();
+      }
+    });
+  };
   gameState.hairbtn = this.add
     .sprite(640, 480, "hairbtn")
     .setPosition(80, 130)
     .setInteractive({ cursor: "pointer" });
   gameState.hairbtn.on("pointerdown", () => {
-    console.log("Hair button clicked");
-    // Add logic to handle hair button click
+    gameState.currentSection = "hair";
+    updateButtons();
   });
   gameState.topsbtn = this.add
     .sprite(640, 480, "topsbtn")
     .setPosition(80, 240)
     .setInteractive({ cursor: "pointer" });
   gameState.topsbtn.on("pointerdown", () => {
-    console.log("Tops button clicked");
-    // Add logic to handle hair button click
+    gameState.currentSection = "top";
+    updateButtons();
   });
   gameState.bottomsbtn = this.add
     .sprite(640, 480, "bottomsbtn")
     .setPosition(80, 350)
     .setInteractive({ cursor: "pointer" });
   gameState.bottomsbtn.on("pointerdown", () => {
-    console.log("Bottoms button clicked");
-    // Add logic to handle hair button click
+    gameState.currentSection = "bottom";
+    updateButtons();
   });
+  updateButtons();
+
+  //
 
   // right panel
   gameState.rightPanel = this.add
@@ -61,13 +83,26 @@ function create() {
     .sprite(640, 480, "arrow")
     .setPosition(590, 370)
     .setInteractive({ cursor: "pointer" });
+
   gameState.arrowNext.on("pointerdown", () => {
-    console.log("arrowNext clicked");
-    // Add logic to handle hair button click
+    let char = gameState.currentChar;
+    let section = gameState.currentSection;
+    let current = gameState[char][section];
+    gameState[char + section + current].visible = false;
+    let next =
+      current + 1 <= gameState[char][section + "total"] ? current + 1 : 1;
+    gameState[char + section + next].visible = true;
+    gameState[char][section] = next;
   });
   gameState.arrowPrev.on("pointerdown", () => {
-    console.log("arrowPrev clicked");
-    // Add logic to handle hair button click
+    let char = gameState.currentChar;
+    let section = gameState.currentSection;
+    let current = gameState[char][section];
+
+    gameState[char + section + current].visible = false;
+    let prev = current > 1 ? current - 1 : gameState[char][section + "total"];
+    gameState[char + section + prev].visible = true;
+    gameState[char][section] = prev;
   });
 }
 

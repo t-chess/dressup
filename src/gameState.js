@@ -1,5 +1,26 @@
 const gameState = {
-  currentHand: 1,
-  currentMomHair: 1,
+  currentChar: "mom",
+  currentSection: "hair",
+  mom: {
+    hair: 1,
+    hairPreview: 1,
+    hairtotal: 6,
+    top: 1,
+    toptotal: 3,
+    bottom: 1,
+    bottomtotal: 5,
+  },
+  gail: {
+    face: 1,
+    facetotal: 1,
+    hand: 1,
+    handtotal: 1,
+    hair: 1,
+    hairtotal: 0,
+    top: 1,
+    toptotal: 0,
+    bottom: 1,
+    bottomtotal: 0,
+  },
 };
 export default gameState;

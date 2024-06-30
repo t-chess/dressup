@@ -1,8 +1,10 @@
+import gameState from "./gameState";
+
 function preload() {
   // bg and bodies
   this.load.image("bg", "assets/bg.png");
   this.load.image("mother", "assets/mom.png");
-  this.load.image("gail", "assets/gail.png");
+  this.load.image("abigail", "assets/gail.png");
 
   // interface
   this.load.image("hairbtn", "assets/interface/hairbtn.png");
@@ -11,14 +13,18 @@ function preload() {
   this.load.image("rightpanel", "assets/interface/rightpanel.png");
   this.load.image("arrow", "assets/interface/arrow.png");
 
-  loadSet.call(this, "hand", 1, "gail");
-  loadSet.call(this, "face", 1, "gail");
-  loadSet.call(this, "hair", 5, "mom");
+  loadSet.call(this, "hand", "gail");
+  loadSet.call(this, "face", "gail");
+
+  loadSet.call(this, "hair", "mom");
+  loadSet.call(this, "top", "mom");
+  loadSet.call(this, "bottom", "mom");
 }
 
-function loadSet(name, total, who) {
+function loadSet(name, who) {
+  let total = gameState[who][name + "total"];
   for (var i = 1; i <= total; i++) {
-    this.load.image(name + i, "assets/" + who + "/" + name + i + ".png");
+    this.load.image(who + name + i, "assets/" + who + "/" + name + i + ".png");
   }
 }
 
