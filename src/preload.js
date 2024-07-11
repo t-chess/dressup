@@ -16,15 +16,21 @@ function preload() {
   loadSet.call(this, "hand", "gail");
   loadSet.call(this, "face", "gail");
 
-  loadSet.call(this, "hair", "mom");
+  loadSet.call(this, "hair", "mom", true);
   loadSet.call(this, "top", "mom");
   loadSet.call(this, "bottom", "mom");
 }
 
-function loadSet(name, who) {
+function loadSet(name, who, withPreview) {
   let total = gameState[who][name + "total"];
   for (var i = 1; i <= total; i++) {
     this.load.image(who + name + i, "assets/" + who + "/" + name + i + ".png");
+    if (withPreview) {
+      this.load.image(
+        who + name + "preview" + i,
+        "assets/" + who + "/" + name + "preview" + i + ".png"
+      );
+    }
   }
 }
 
