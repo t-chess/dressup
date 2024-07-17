@@ -17,8 +17,8 @@ function preload() {
   loadSet.call(this, "face", "gail");
 
   loadSet.call(this, "hair", "mom", true);
-  loadSet.call(this, "top", "mom");
-  loadSet.call(this, "bottom", "mom");
+  loadSet.call(this, "top", "mom", true);
+  loadSet.call(this, "bottom", "mom", true);
 }
 
 function loadSet(name, who, withPreview) {

@@ -1,0 +1,17 @@
+{
+    "preview": [
+        { 
+            "condition": ["hairpreview4"],
+            "who": "mom",
+            "text": "ah i wish i had curly hair"  
+        }
+    ],
+    "click": [
+        { 
+            "condition": ["hair2"],
+            "who": "mom",
+            "text": "Isn't it a wonderful, bittersweet feeling when people say we look so much alike?"  
+        }
+    ]
+
+}

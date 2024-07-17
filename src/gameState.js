@@ -1,6 +1,6 @@
 const gameState = {
   currentChar: "mom",
-  currentSection: "hair",
+  currentSection: "",
   mom: {
     hair: 1,
     hairPreview: 1,
@@ -23,4 +23,5 @@ const gameState = {
     bottomtotal: 0,
   },
 };
+
 export default gameState;
