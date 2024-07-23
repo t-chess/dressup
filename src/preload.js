@@ -12,6 +12,7 @@ function preload() {
   this.load.image("bottomsbtn", "assets/interface/bottomsbtn.png");
   this.load.image("rightpanel", "assets/interface/rightpanel.png");
   this.load.image("arrow", "assets/interface/arrow.png");
+  this.load.image("arrowgail", "assets/interface/arrowgail.png");
 
   loadSet.call(this, "hand", "gail");
   loadSet.call(this, "face", "gail");

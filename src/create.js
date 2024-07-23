@@ -1,4 +1,5 @@
 import gameState from "./gameState";
+import phrases from "./phrases.json";
 
 function create() {
   gameState.bg = this.add.sprite(640, 480, "bg").setPosition(320, 240);
@@ -22,6 +23,7 @@ function create() {
           for (let r = 1; r <= total; r++) {
             gameState[who + what + r].visible = r === i ? true : false;
           }
+          checkChange("click");
         });
       }
     }
@@ -57,6 +59,7 @@ function create() {
         buttons[section].preFX.addColorMatrix().negative();
       }
     });
+    checkChange("preview");
   };
   gameState.hairbtn = this.add
     .sprite(640, 480, "hairbtn")
@@ -96,6 +99,12 @@ function create() {
     .setPosition(590, 370)
     .setInteractive({ cursor: "pointer" });
 
+  gameState.arrowGail = this.add
+    .sprite(640, 480, "arrowgail")
+    .setPosition(560, 425)
+    .setVisible(false)
+    .setInteractive({ cursor: "pointer" });
+
   gameState.arrowNext.on("pointerdown", () => {
     let char = gameState.currentChar;
     let section = gameState.currentSection;
@@ -105,7 +114,10 @@ function create() {
       current + 1 <= gameState[char][section + "total"] ? current + 1 : 1;
     gameState[char + section + "preview" + next].visible = true;
     gameState[char][section] = next;
-    checkPreviewChange();
+    if (!gameState.showGailBtn && section === "bottom" && current == 1) {
+      gameState.arrowGail.visible = true;
+    }
+    checkChange("preview");
   });
   gameState.arrowPrev.on("pointerdown", () => {
     let char = gameState.currentChar;
@@ -116,11 +128,54 @@ function create() {
     let prev = current > 1 ? current - 1 : gameState[char][section + "total"];
     gameState[char + section + "preview" + prev].visible = true;
     gameState[char][section] = prev;
-    checkPreviewChange();
+    checkChange("preview");
   });
 
-  const checkPreviewChange = () => {
-    this.add.text(0, 0, "Test");
+  gameState.arrowGail.on("pointerdown", () => {
+    gameState.currentChar = "gail";
+    onNavClicked("hair");
+    checkChange("preview");
+  });
+
+  const checkChange = (type) => {
+    phrases[type].forEach((ph) => {
+      let show = true;
+      ph.condition.forEach((cond) => {
+        if (!gameState[ph.who + cond]._visible) {
+          show = false;
+        }
+      });
+      if (show) {
+        let count = ph.qty ? ph.qty : 1;
+        for (let i = 0; i < count; i++) {
+          // butiful text rendering
+          let styleObject = {
+            backgroundColor: "black",
+            color: "white",
+          };
+          const addText = (index) => {
+            if (index >= ph.text.length) {
+              return;
+            }
+            let tempText = this.add.text(0, 0, ph.text[index], styleObject);
+            let textWidth = tempText.width;
+            let textHeight = tempText.height;
+            tempText.destroy();
+            let x = Phaser.Math.Between(0, 640 - textWidth);
+            let y = Phaser.Math.Between(0, 480 - textHeight);
+            let textik = this.add.text(x, y, ph.text[index], styleObject);
+            setTimeout(() => {
+              textik.destroy();
+            }, 8000);
+            setTimeout(() => {
+              addText(index + 1);
+            }, 2000);
+          };
+          addText(0);
+          //
+        }
+      }
+    });
   };
 
   // MOM
