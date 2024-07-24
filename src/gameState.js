@@ -18,7 +18,7 @@ const gameState = {
     hair: 1,
     hairtotal: 3,
     top: 1,
-    toptotal: 0,
+    toptotal: 1,
     bottom: 1,
     bottomtotal: 0,
   },

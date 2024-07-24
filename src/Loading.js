@@ -78,6 +78,7 @@ class Loading extends Phaser.Scene {
     this.loadSet("hand", "gail");
     this.loadSet("face", "gail");
     this.loadSet("hair", "gail");
+    this.loadSet("top", "gail");
   }
   loadSet(name, who, withPreview) {
     let total = gameState[who][name + "total"];

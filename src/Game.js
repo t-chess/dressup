@@ -99,6 +99,7 @@ class Game extends Phaser.Scene {
     this.addSet("gail", "hand", 320, 152);
     this.addSet("gail", "face", 340, 95);
     this.addSet("gail", "hair", 346, 112);
+    this.addSet("gail", "top", 399, 219);
 
     this.onNavClicked("hair");
   }
