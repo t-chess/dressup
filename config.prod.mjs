@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
+
 export default defineConfig({
-  base: "./",
+  base: "/dressup/",
   build: {
     rollupOptions: {
       output: {
@@ -20,4 +22,14 @@ export default defineConfig({
       },
     },
   },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: "assets", // Source folder relative to the project root
+          dest: "assets", // Destination folder in the dist directory
+        },
+      ],
+    }),
+  ],
 });

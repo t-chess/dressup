@@ -9,8 +9,9 @@
     "build": "vite build --config config.prod.mjs"
   },
   "devDependencies": {
+    "terser": "^5.31.1",
     "vite": "^5.2.0",
-    "terser": "^5.31.1"
+    "vite-plugin-static-copy": "^1.0.6"
   },
   "dependencies": {
     "phaser": "^3.80.1"
