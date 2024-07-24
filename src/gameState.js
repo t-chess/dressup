@@ -16,7 +16,7 @@ const gameState = {
     hand: 1,
     handtotal: 1,
     hair: 1,
-    hairtotal: 0,
+    hairtotal: 3,
     top: 1,
     toptotal: 0,
     bottom: 1,
