@@ -1,13 +1,7 @@
 {
     "preview": [
         { 
-            "condition": "hairpreview2",
-            "who": "mom",
-            "text": ["welcome back"],  
-            "qty": 1
-        },
-        { 
-            "condition": "hairpreview4",
+            "condition": "hairpreview6",
             "who": "mom",
             "text": ["ah i wish i had curly hair"],  
             "qty": 1
@@ -47,10 +41,15 @@
         { 
             "on": "hair2",
             "who": "mom",
+            "text":[ "welcome back"]  
+        },
+        { 
+            "on": "hair3",
+            "who": "mom",
             "text":[ "isn't it a wonderful, bittersweet feeling","when people say we look so much alike?"]  
         },
         { 
-            "on": "hair6",
+            "on": "hair9",
             "who": "mom",
             "text":[ "this is where I feel closest to my old dreams","singing here in church.", "it's not the stage I imagined", "but it's a stage nonetheless"]  
         },

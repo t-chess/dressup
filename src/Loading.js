@@ -54,10 +54,16 @@ class Loading extends Phaser.Scene {
         .fillStyle(0xffffff, 1)
         .fillRect(215, 400, 210 * value, 20);
     });
+    // !!!!!!!!! remove
+    const start = () => {
+      this.scene.start("Game");
+    };
+    //
     this.load.on("complete", function () {
       progressBar.destroy();
       progressBox.destroy();
       playButton.setVisible(true);
+      start(); // !!!!!!!!!!! remove
     });
     // bodies
     this.load.image("mother", "assets/mom.png");
@@ -70,13 +76,12 @@ class Loading extends Phaser.Scene {
     this.load.image("rightpanel", "assets/interface/rightpanel.png");
     this.load.image("arrow", "assets/interface/arrow.png");
     this.load.image("arrowgail", "assets/interface/arrowgail.png");
+    this.load.audio("music", "assets/interface/LastWaltz.mp3");
 
     this.loadSet("hair", "mom", true);
     this.loadSet("top", "mom", true);
     this.loadSet("bottom", "mom", true);
 
-    this.loadSet("hand", "gail");
-    this.loadSet("face", "gail");
     this.loadSet("hair", "gail");
     this.loadSet("top", "gail");
   }

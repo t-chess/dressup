@@ -4,17 +4,13 @@ const gameState = {
   mom: {
     hair: 1,
     hairPreview: 1,
-    hairtotal: 6,
+    hairtotal: 10,
     top: 1,
     toptotal: 3,
     bottom: 1,
     bottomtotal: 5,
   },
   gail: {
-    face: 1,
-    facetotal: 1,
-    hand: 1,
-    handtotal: 1,
     hair: 1,
     hairtotal: 3,
     top: 1,
