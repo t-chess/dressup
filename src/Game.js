@@ -108,8 +108,8 @@ class Game extends Phaser.Scene {
     gameState.mother = this.add
       .sprite(640, 480, "mother")
       .setPosition(250, 248);
-    this.addSet("mom", "bottom", 214, 358, true);
-    this.addSet("mom", "top", 236, 283, true);
+    this.addSet("mom", "bottom", 248, 345, true);
+    this.addSet("mom", "top", 238, 285, true);
     this.addSet("mom", "hair", 238, 99, true);
 
     // GAIL
@@ -153,7 +153,6 @@ class Game extends Phaser.Scene {
           show = true;
         }
       } else {
-        console.log(ph.who + ph.on, gameState[ph.who + ph.on]);
         if (
           ph.who === gameState.currentChar &&
           ph.on.replace(/[0-9]/g, "") === gameState.currentSection &&

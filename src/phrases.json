@@ -1,47 +1,42 @@
 {
-    "preview": [
+    "preview": [ 
+        { 
+            "condition": "hairpreview1",
+            "who": "mom",
+            "text": [ "welcome home, Abigail", "how was your time away?", "your return marks a significant moment for us"],  
+            "qty": 1
+        },
         { 
             "condition": "hairpreview6",
             "who": "mom",
-            "text": ["ah i wish i had curly hair"],  
+            "text": ["ah i wish i had curly hair","ah i wish i had curly hair"],  
             "qty": 1
         },
         { 
             "condition": "toppreview2",
             "who": "mom",
-            "text": ["did you miss our little tobacco shop, Abigail?", "I remember you helping me stock shelves", "and chatting with the regulars.", "(And the scent of fresh tobacco.)"],  
+            "text": ["did you miss our little shop, Abigail?", "I remember you helping me stock shelves", "and chatting with the regulars.", "(And the scent of fresh tobacco.)"],  
             "qty": 1
         },
         { 
             "condition": "toppreview3",
             "who": "mom",
-            "text": ["I love you."],  
-            "qty": 3
-        },
-        { 
-            "condition": "bottompreview1",
-            "who": "mom",
-            "text": ["do you have any idea what it's like to see your dreams die", "because of a single mistake?", "because of a single mistake?", "because of a single mistake?"],  
+            "text": ["do you have any idea what it's like to see your dreams die", "because of a single mistake?", "because of a single mistake?", "because of a single mistake?"],
             "qty": 1
         },
         { 
             "condition": "bottompreview2",
             "who": "mom",
-            "text": ["I love you.","I love you."],  
+            "text": ["I love you.", "I missed you."],  
             "qty": 3
-        },
-        { 
-            "condition": "bottompreview3",
-            "who": "mom",
-            "text": ["I tried to love you, I really did."],  
-            "qty": 5
         }
     ],
     "click": [
         { 
             "on": "hair2",
             "who": "mom",
-            "text":[ "welcome back"]  
+            "text":["home sweet home"],
+            "qty": 1
         },
         { 
             "on": "hair3",
@@ -53,8 +48,19 @@
             "who": "mom",
             "text":[ "this is where I feel closest to my old dreams","singing here in church.", "it's not the stage I imagined", "but it's a stage nonetheless"]  
         },
+        {
+            "on": "top6",
+            "who": "mom",
+            "text":["o Lord hear the cry of a girl", "for years of silence and fear", "have birthed within her a fury", "vast and ancient like the storms of old", "grant her solace for her anger is now a tempest beyond words","a grief that knows no comfort","may she find peace in Your embrace","and let her soul be healed", "amen"]
+        },
         { 
             "on": "bottom2",
+            "who": "mom",
+            "text": ["I tried to love you, I really did."],  
+            "qty": 6
+        },
+        { 
+            "on": "bottom4",
             "who": "mom",
             "text":[ "Yet the cruel, inevitable, and irredeemable truth", "is that a mistake is exactly what you are."],
             "qty": 2

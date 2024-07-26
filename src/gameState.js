@@ -6,9 +6,9 @@ const gameState = {
     hairPreview: 1,
     hairtotal: 10,
     top: 1,
-    toptotal: 3,
+    toptotal: 6,
     bottom: 1,
-    bottomtotal: 5,
+    bottomtotal: 6,
   },
   gail: {
     hair: 1,
