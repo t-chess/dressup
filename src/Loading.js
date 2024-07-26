@@ -63,7 +63,7 @@ class Loading extends Phaser.Scene {
       progressBar.destroy();
       progressBox.destroy();
       playButton.setVisible(true);
-      start(); // !!!!!!!!!!! remove
+      // start(); // !!!!!!!!!!! remove
     });
     // bodies
     this.load.image("mother", "assets/mom.png");
