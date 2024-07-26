@@ -3,19 +3,13 @@
         { 
             "condition": "hairpreview1",
             "who": "mom",
-            "text": [ "welcome home, Abigail", "how was your time away?", "your return marks a significant moment for us"],  
+            "text": [ "home sweet home"],  
             "qty": 1
         },
         { 
             "condition": "hairpreview6",
             "who": "mom",
             "text": ["ah i wish i had curly hair","ah i wish i had curly hair"],  
-            "qty": 1
-        },
-        { 
-            "condition": "toppreview2",
-            "who": "mom",
-            "text": ["did you miss our little shop, Abigail?", "I remember you helping me stock shelves", "and chatting with the regulars.", "(And the scent of fresh tobacco.)"],  
             "qty": 1
         },
         { 
@@ -35,7 +29,7 @@
         { 
             "on": "hair2",
             "who": "mom",
-            "text":["home sweet home"],
+            "text":["welcome home, Abigail", "how was your time away?", "your return marks a significant moment for us"],
             "qty": 1
         },
         { 
@@ -47,6 +41,12 @@
             "on": "hair9",
             "who": "mom",
             "text":[ "this is where I feel closest to my old dreams","singing here in church.", "it's not the stage I imagined", "but it's a stage nonetheless"]  
+        },
+        { 
+            "on": "top2",
+            "who": "mom",
+            "text": ["did you miss our little shop, Abigail?", "I remember you helping me stock shelves", "and chatting with the regulars.", "(And the scent of fresh tobacco.)"],  
+            "qty": 1
         },
         {
             "on": "top6",
