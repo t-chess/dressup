@@ -8,59 +8,65 @@ class Game extends Phaser.Scene {
   create() {
     gameState.bg = this.add.sprite(640, 480, "bg").setPosition(320, 240);
     // left buttons
-    gameState.hairbtn = this.add
+    this.hairbtn = this.add
       .sprite(640, 480, "hairbtn")
       .setPosition(80, 130)
       .setInteractive({ cursor: "pointer" });
-    gameState.hairbtn.on("pointerdown", () => {
+    this.hairbtn.on("pointerdown", () => {
       this.onNavClicked("hair");
     });
-    gameState.topsbtn = this.add
+    this.topsbtn = this.add
       .sprite(640, 480, "topsbtn")
       .setPosition(80, 230)
       .setInteractive({ cursor: "pointer" });
-    gameState.topsbtn.on("pointerdown", () => {
+    this.topsbtn.on("pointerdown", () => {
       this.onNavClicked("top");
     });
-    gameState.bottomsbtn = this.add
+    this.bottomsbtn = this.add
       .sprite(640, 480, "bottomsbtn")
       .setPosition(80, 330)
       .setInteractive({ cursor: "pointer" });
-    gameState.bottomsbtn.on("pointerdown", () => {
+    this.bottomsbtn.on("pointerdown", () => {
       this.onNavClicked("bottom");
     });
 
     //
 
     // right panel
-    gameState.rightPanel1 = this.add
+    this.rightPanel1 = this.add
       .sprite(640, 480, "rightpanel")
       .setPosition(560, 150);
-    gameState.rightPanel2 = this.add
+    this.rightPanel2 = this.add
       .sprite(640, 480, "rightpanel")
       .setPosition(560, 310);
-    gameState.arrowPrev = this.add
+    this.arrowPrev = this.add
       .sprite(640, 480, "arrow")
       .setPosition(530, 410)
       .setFlipX(true)
       .setInteractive({ cursor: "pointer" });
-    gameState.arrowNext = this.add
+    this.arrowNext = this.add
       .sprite(640, 480, "arrow")
       .setPosition(590, 410)
       .setInteractive({ cursor: "pointer" });
 
-    gameState.arrowGail = this.add
+    this.arrowChangeChar = this.add
       .sprite(640, 480, "arrowgail")
       .setPosition(80, 410)
-      .setVisible(false)
+      // .setVisible(false)
       .setInteractive({ cursor: "pointer" });
+    this.changeCharText = this.add
+      .text(70, 410, "Gail", {
+        font: "22px monospace",
+        fill: "black",
+      })
+      .setOrigin(0.5, 0.5);
 
     const music = this.sound.add("music");
     music.loop = true;
     music.play();
     this.sound.pauseOnBlur = false;
 
-    gameState.arrowNext.on("pointerdown", () => {
+    this.arrowNext.on("pointerdown", () => {
       let char = gameState.currentChar;
       let section = gameState.currentSection;
       let current = gameState[char][section];
@@ -75,12 +81,13 @@ class Game extends Phaser.Scene {
 
       gameState[char][section] = next;
 
-      if (!gameState.showGailBtn && section === "bottom" && current == 3) {
-        gameState.arrowGail.visible = true;
+      if (!gameState.btnChangeChar && section === "bottom" && current == 3) {
+        gameState.btnChangeChar = true;
+        this.arrowChangeChar.visible = true;
       }
       this.checkChange("preview");
     });
-    gameState.arrowPrev.on("pointerdown", () => {
+    this.arrowPrev.on("pointerdown", () => {
       let char = gameState.currentChar;
       let section = gameState.currentSection;
       let current = gameState[char][section];
@@ -98,30 +105,36 @@ class Game extends Phaser.Scene {
       this.checkChange("preview");
     });
 
-    gameState.arrowGail.on("pointerdown", () => {
-      gameState.currentChar = "gail";
+    this.arrowChangeChar.on("pointerdown", () => {
+      let keys = Object.keys(gameState).filter((k) =>
+        k.includes(gameState.currentChar + gameState.currentSection + "preview")
+      );
+      keys.forEach((k) => (gameState[k].visible = false));
+      gameState.currentSection = null;
+      this.changeCharText.setText(
+        gameState.currentChar.charAt(0).toUpperCase() +
+          gameState.currentChar.slice(1)
+      );
+      this.arrowChangeChar.setFlipX(!this.arrowChangeChar.flipX);
+      gameState.currentChar = gameState.currentChar == "mom" ? "gail" : "mom";
       this.onNavClicked("hair");
       this.checkChange("preview");
     });
 
     // MOM
-    gameState.mother = this.add
-      .sprite(640, 480, "mother")
-      .setPosition(250, 248);
-    this.addSet("mom", "bottom", 248, 345, true);
-    this.addSet("mom", "top", 238, 285, true);
-    this.addSet("mom", "hair", 238, 99, true);
+    this.mother = this.add.sprite(640, 480, "mother").setPosition(250, 248);
+    this.addSet("mom", "bottom", 248, 345);
+    this.addSet("mom", "top", 238, 285);
+    this.addSet("mom", "hair", 238, 99);
 
     // GAIL
-    gameState.abigail = this.add
-      .sprite(640, 480, "abigail")
-      .setPosition(380, 258);
+    this.abigail = this.add.sprite(640, 480, "abigail").setPosition(383, 258);
     this.addSet("gail", "hair", 346, 112);
-    this.addSet("gail", "top", 399, 219);
+    this.addSet("gail", "top", 387, 263);
 
     this.onNavClicked("hair");
   }
-  addSet(who, what, x, y, withPreview) {
+  addSet(who, what, x, y) {
     let name = who + what;
     let total = gameState[who][what + "total"];
     for (let i = 1; i <= total; i++) {
@@ -129,20 +142,18 @@ class Game extends Phaser.Scene {
       if (i !== 1) {
         gameState[name + i].visible = false;
       }
-      if (withPreview) {
-        gameState[name + "preview" + i] = this.add
-          .sprite(560, i % 2 === 0 ? 310 : 150, name + "preview" + i)
-          .setInteractive({ cursor: "pointer" });
-        if (i > 2 || what !== "hair") {
-          gameState[name + "preview" + i].visible = false;
-        }
-        gameState[name + "preview" + i].on("pointerdown", () => {
-          for (let r = 1; r <= total; r++) {
-            gameState[who + what + r].visible = r === i ? true : false;
-          }
-          this.checkChange("click");
-        });
+      gameState[name + "preview" + i] = this.add
+        .sprite(560, i % 2 === 0 ? 310 : 150, name + "preview" + i)
+        .setInteractive({ cursor: "pointer" });
+      if (i > 2 || what !== "hair" || who !== "mom") {
+        gameState[name + "preview" + i].visible = false;
       }
+      gameState[name + "preview" + i].on("pointerdown", () => {
+        for (let r = 1; r <= total; r++) {
+          gameState[who + what + r].visible = r === i ? true : false;
+        }
+        this.checkChange("click");
+      });
     }
   }
   checkChange(type) {
@@ -195,9 +206,9 @@ class Game extends Phaser.Scene {
   }
   onNavClicked(type) {
     const buttons = {
-      hair: gameState.hairbtn,
-      top: gameState.topsbtn,
-      bottom: gameState.bottomsbtn,
+      hair: this.hairbtn,
+      top: this.topsbtn,
+      bottom: this.bottomsbtn,
     };
     if (gameState.currentSection !== type) {
       let who = gameState.currentChar;

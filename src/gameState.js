@@ -12,12 +12,13 @@ const gameState = {
   },
   gail: {
     hair: 1,
-    hairtotal: 3,
+    hairtotal: 4,
     top: 1,
-    toptotal: 1,
+    toptotal: 6,
     bottom: 1,
     bottomtotal: 0,
   },
+  btnChangeChar: false,
 };
 
 export default gameState;

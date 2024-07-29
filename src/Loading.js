@@ -78,26 +78,24 @@ class Loading extends Phaser.Scene {
     this.load.image("arrowgail", "assets/interface/arrowgail.png");
     this.load.audio("music", "assets/interface/LastWaltz.mp3");
 
-    this.loadSet("hair", "mom", true);
-    this.loadSet("top", "mom", true);
-    this.loadSet("bottom", "mom", true);
+    this.loadSet("hair", "mom");
+    this.loadSet("top", "mom");
+    this.loadSet("bottom", "mom");
 
     this.loadSet("hair", "gail");
     this.loadSet("top", "gail");
   }
-  loadSet(name, who, withPreview) {
+  loadSet(name, who) {
     let total = gameState[who][name + "total"];
     for (var i = 1; i <= total; i++) {
       this.load.image(
         who + name + i,
         "assets/" + who + "/" + name + i + ".png"
       );
-      if (withPreview) {
-        this.load.image(
-          who + name + "preview" + i,
-          "assets/" + who + "/" + name + "preview" + i + ".png"
-        );
-      }
+      this.load.image(
+        who + name + "preview" + i,
+        "assets/" + who + "/" + name + "preview" + i + ".png"
+      );
     }
   }
 }

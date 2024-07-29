@@ -17,12 +17,6 @@
             "who": "mom",
             "text": ["do you have any idea what it's like to see your dreams die", "because of a single mistake?", "because of a single mistake?", "because of a single mistake?"],
             "qty": 1
-        },
-        { 
-            "condition": "bottompreview2",
-            "who": "mom",
-            "text": ["I love you.", "I missed you."],  
-            "qty": 3
         }
     ],
     "click": [
