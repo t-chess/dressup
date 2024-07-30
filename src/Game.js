@@ -70,7 +70,7 @@ class Game extends Phaser.Scene {
     this.arrowgail = this.add
       .sprite(640, 480, "arrowgail")
       .setPosition(80, 410)
-      // .setVisible(false)
+      .setVisible(false)
       .setInteractive({ cursor: "pointer" });
     this.arrowmom = this.add
       .sprite(640, 480, "arrowmom")
@@ -117,7 +117,7 @@ class Game extends Phaser.Scene {
 
       if (!gameState.btnChangeChar && section === "bottom" && current == 3) {
         gameState.btnChangeChar = true;
-        this.arrowChangeChar.visible = true;
+        this.arrowgail.visible = true;
       }
       this.checkChange("preview");
     });

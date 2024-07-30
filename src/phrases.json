@@ -76,6 +76,18 @@
             "who": "gail",
             "text":[ "My old school uniform. It doesn't fit anymore."],
             "qty": 1
+        },
+        { 
+            "on": "top5",
+            "who": "gail",
+            "text":[ "I would gladly give you back my life", "so you could have yours", "But we don't always get what we want, do we?"],
+            "qty": 1
+        },
+        { 
+            "on": "bottom2",
+            "who": "gail",
+            "text":[ "Please stop yelling","Please stop yelling"],
+            "qty": 8
         }
     ]
 
