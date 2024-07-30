@@ -6,7 +6,12 @@ class Game extends Phaser.Scene {
     super({ key: "Game" });
   }
   create() {
-    gameState.bg = this.add.sprite(640, 480, "bg").setPosition(320, 240);
+    Array.from({ length: gameState.bgtotal }, (_, i) => i + 1).forEach((i) => {
+      this["bg" + i] = this.add
+        .sprite(640, 480, "bg" + i)
+        .setVisible(i > 1 ? false : true)
+        .setPosition(320, 240);
+    });
     // left buttons
     this.hairbtn = this.add
       .sprite(640, 480, "hairbtn")
@@ -48,23 +53,52 @@ class Game extends Phaser.Scene {
       .sprite(640, 480, "arrow")
       .setPosition(590, 410)
       .setInteractive({ cursor: "pointer" });
+    this.bgbtn = this.add
+      .sprite(640, 480, "bgbtn")
+      .setPosition(530, 50)
+      .setInteractive({ cursor: "pointer" });
+    this.musicon = this.add
+      .sprite(640, 480, "musicon")
+      .setPosition(590, 50)
+      .setInteractive({ cursor: "pointer" });
+    this.musicoff = this.add
+      .sprite(640, 480, "musicoff")
+      .setVisible(false)
+      .setPosition(590, 50)
+      .setInteractive({ cursor: "pointer" });
 
-    this.arrowChangeChar = this.add
+    this.arrowgail = this.add
       .sprite(640, 480, "arrowgail")
       .setPosition(80, 410)
       // .setVisible(false)
       .setInteractive({ cursor: "pointer" });
-    this.changeCharText = this.add
-      .text(70, 410, "Gail", {
-        font: "22px monospace",
-        fill: "black",
-      })
-      .setOrigin(0.5, 0.5);
+    this.arrowmom = this.add
+      .sprite(640, 480, "arrowmom")
+      .setPosition(80, 410)
+      .setVisible(false)
+      .setInteractive({ cursor: "pointer" });
 
     const music = this.sound.add("music");
     music.loop = true;
     music.play();
     this.sound.pauseOnBlur = false;
+    this.musicoff.on("pointerdown", () => {
+      music.play();
+      this.musicoff.visible = false;
+      this.musicon.visible = true;
+    });
+    this.musicon.on("pointerdown", () => {
+      music.stop();
+      this.musicoff.visible = true;
+      this.musicon.visible = false;
+    });
+
+    this.bgbtn.on("pointerdown", () => {
+      let next = gameState.bg + 1 > gameState.bgtotal ? 1 : gameState.bg + 1;
+      this["bg" + gameState.bg].visible = false;
+      this["bg" + next].visible = true;
+      gameState.bg = next;
+    });
 
     this.arrowNext.on("pointerdown", () => {
       let char = gameState.currentChar;
@@ -105,21 +139,20 @@ class Game extends Phaser.Scene {
       this.checkChange("preview");
     });
 
-    this.arrowChangeChar.on("pointerdown", () => {
+    const changeChar = () => {
       let keys = Object.keys(gameState).filter((k) =>
         k.includes(gameState.currentChar + gameState.currentSection + "preview")
       );
       keys.forEach((k) => (gameState[k].visible = false));
       gameState.currentSection = null;
-      this.changeCharText.setText(
-        gameState.currentChar.charAt(0).toUpperCase() +
-          gameState.currentChar.slice(1)
-      );
-      this.arrowChangeChar.setFlipX(!this.arrowChangeChar.flipX);
+      this["arrow" + gameState.currentChar].visible = true;
       gameState.currentChar = gameState.currentChar == "mom" ? "gail" : "mom";
+      this["arrow" + gameState.currentChar].visible = false;
       this.onNavClicked("hair");
       this.checkChange("preview");
-    });
+    };
+    this.arrowgail.on("pointerdown", changeChar);
+    this.arrowmom.on("pointerdown", changeChar);
 
     // MOM
     this.mother = this.add.sprite(640, 480, "mother").setPosition(250, 248);
@@ -129,8 +162,9 @@ class Game extends Phaser.Scene {
 
     // GAIL
     this.abigail = this.add.sprite(640, 480, "abigail").setPosition(383, 258);
+    this.addSet("gail", "bottom", 371, 309);
+    this.addSet("gail", "top", 389, 261);
     this.addSet("gail", "hair", 346, 112);
-    this.addSet("gail", "top", 387, 263);
 
     this.onNavClicked("hair");
   }
@@ -193,7 +227,7 @@ class Game extends Phaser.Scene {
             let textik = this.add.text(x, y, ph.text[index], styleObject);
             setTimeout(() => {
               textik.destroy();
-            }, 10000);
+            }, 8000);
             setTimeout(() => {
               addText(index + 1);
             }, 3000);

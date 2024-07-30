@@ -3,7 +3,7 @@ class PreLoading extends Phaser.Scene {
     super({ key: "PreLoading" });
   }
   preload() {
-    this.load.image("bg", "assets/bg.png");
+    this.load.image("bg1", "assets/bg1.png");
     this.load.on("complete", () => {
       this.scene.start("Loading");
     });

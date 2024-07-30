@@ -6,8 +6,13 @@ class Loading extends Phaser.Scene {
   }
   preload() {
     // loading screen
-    this.load.image("bg", "assets/bg.png");
-    this.add.sprite(640, 480, "bg").setPosition(320, 240);
+    Array.from({ length: gameState.bgtotal - 1 }, (_, i) => i + 2).forEach(
+      (i) => {
+        this.load.image("bg" + i, "assets/bg" + i + ".png");
+      }
+    );
+
+    this.add.sprite(640, 480, "bg1").setPosition(320, 240);
 
     this.add.graphics().fillStyle(0xffffff, 1).fillRect(50, 190, 540, 180);
 
@@ -63,7 +68,7 @@ class Loading extends Phaser.Scene {
       progressBar.destroy();
       progressBox.destroy();
       playButton.setVisible(true);
-      // start(); // !!!!!!!!!!! remove
+      start(); // !!!!!!!!!!! remove
     });
     // bodies
     this.load.image("mother", "assets/mom.png");
@@ -76,6 +81,11 @@ class Loading extends Phaser.Scene {
     this.load.image("rightpanel", "assets/interface/rightpanel.png");
     this.load.image("arrow", "assets/interface/arrow.png");
     this.load.image("arrowgail", "assets/interface/arrowgail.png");
+    this.load.image("arrowmom", "assets/interface/arrowmom.png");
+    this.load.image("bgbtn", "assets/interface/bgbtn.png");
+    this.load.image("musicon", "assets/interface/musicon.png");
+    this.load.image("musicoff", "assets/interface/musicoff.png");
+
     this.load.audio("music", "assets/interface/LastWaltz.mp3");
 
     this.loadSet("hair", "mom");
@@ -84,6 +94,7 @@ class Loading extends Phaser.Scene {
 
     this.loadSet("hair", "gail");
     this.loadSet("top", "gail");
+    this.loadSet("bottom", "gail");
   }
   loadSet(name, who) {
     let total = gameState[who][name + "total"];

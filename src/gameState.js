@@ -1,6 +1,8 @@
 const gameState = {
   currentChar: "mom",
   currentSection: "",
+  bg: 1,
+  bgtotal: 4,
   mom: {
     hair: 1,
     hairPreview: 1,
@@ -16,7 +18,7 @@ const gameState = {
     top: 1,
     toptotal: 6,
     bottom: 1,
-    bottomtotal: 0,
+    bottomtotal: 2,
   },
   btnChangeChar: false,
 };
