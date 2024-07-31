@@ -21,6 +21,7 @@ const gameState = {
     bottomtotal: 2,
   },
   btnChangeChar: false,
+  btnDone: false,
 };
 
 export default gameState;

@@ -82,6 +82,7 @@ class Loading extends Phaser.Scene {
     this.load.image("arrow", "assets/interface/arrow.png");
     this.load.image("arrowgail", "assets/interface/arrowgail.png");
     this.load.image("arrowmom", "assets/interface/arrowmom.png");
+    this.load.image("btndone", "assets/interface/btndone.png");
     this.load.image("bgbtn", "assets/interface/bgbtn.png");
     this.load.image("musicon", "assets/interface/musicon.png");
     this.load.image("musicoff", "assets/interface/musicoff.png");
@@ -95,6 +96,9 @@ class Loading extends Phaser.Scene {
     this.loadSet("hair", "gail");
     this.loadSet("top", "gail");
     this.loadSet("bottom", "gail");
+
+    this.load.image("hand", "assets/hand.png");
+    this.load.image("eyes", "assets/mom/eyes.png");
   }
   loadSet(name, who) {
     let total = gameState[who][name + "total"];
