@@ -15,7 +15,7 @@
         { 
             "condition": "toppreview3",
             "who": "mom",
-            "text": ["Do you have any idea what it's like to see your dreams die", "because of a single mistake?", "because of a single mistake?", "because of a single mistake?"],
+            "text": ["Do you have any idea what it's like to see your dreams die", "because of a single mistake?"],
             "qty": 1
         },
         { 
@@ -29,7 +29,7 @@
         { 
             "on": "hair2",
             "who": "mom",
-            "text":["Welcome home, Abigail", "How was your time away?", "Your return marks a significant moment for us"],
+            "text":["Welcome home, Abigail", "How was your time away?"],
             "qty": 1
         },
         { 
@@ -47,6 +47,11 @@
             "who": "mom",
             "text": ["Did you miss our little shop, Abigail?", "I remember you helping me stock shelves", "and chatting with the regulars.", "(And the scent of fresh tobacco.)"],  
             "qty": 1
+        },
+        {
+            "on": "top5",
+            "who": "mom",
+            "text":["Meanwhile, think about your behavior in the basement"]
         },
         {
             "on": "top6",
@@ -89,6 +94,17 @@
             "text":[ "Please stop yelling","Please stop yelling"],
             "qty": 8
         }
+    ],
+    "end1": [],
+    "end2": [
+        "Once upon a time there lived a young maiden with a voice so enchanting that even the birds would hush to listen.",
+        "One fateful day, a mysterious circus, with tents of deep crimson and gold, and performers who seemed to dance on the edge of reality itself, arrived at the town.",
+        "Among them was a dashing young man, a circus artist with eyes as sharp as a hawk’s and a smile as fleeting as the wind.",
+        "He whispered promises of a shared future, bright, wild and free life like the circus itself, of a life where her voice would be heard across the world.",
+        "But soon, she discovered she was with child, and the warmth in his eyes turned to ice. ",
+        "As the season ended, the circus packed up and vanished into the mist, leaving her behind without a word, like a fading dream.",
+        "Her once-bright dreams crumbled into dust. ",
+        "As the life inside her grew, her voice dimmed, faltering until it became nothing more than a faint echo of what it once had been—a ghost haunting her from within."
     ]
 
 }

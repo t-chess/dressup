@@ -9,5 +9,6 @@ const game = new Phaser.Game({
   width: 640,
   height: 480,
   parent: "container",
+  backgroundColor: "0xFFFFFF",
   scene: [PreLoading, Loading, Game, Ending],
 });

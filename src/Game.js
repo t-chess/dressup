@@ -83,12 +83,12 @@ class Game extends Phaser.Scene {
     this.music.play();
     this.sound.pauseOnBlur = false;
     this.musicoff.on("pointerdown", () => {
-      this.music.play();
+      this.music.resume();
       this.musicoff.visible = false;
       this.musicon.visible = true;
     });
     this.musicon.on("pointerdown", () => {
-      this.music.stop();
+      this.music.pause();
       this.musicoff.visible = true;
       this.musicon.visible = false;
     });
@@ -194,6 +194,10 @@ class Game extends Phaser.Scene {
           ["Who the hell wears an old school uniform to a funeral?"],
           0
         );
+        return;
+      }
+      if (gameState.momtop5._visible && gameState.mombottom3._visible) {
+        this.addText(["I don't think mom would have understood this joke."], 0);
         return;
       }
       Object.keys(gameState)
@@ -367,7 +371,9 @@ class Game extends Phaser.Scene {
           x: this.hand.x + 50,
           duration: 1000,
           onComplete: () => {
-            this.scene.start("Ending");
+            setTimeout(() => {
+              this.scene.start("Ending");
+            }, 1000);
           },
         });
       }, 2000);
