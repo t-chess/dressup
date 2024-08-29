@@ -61,7 +61,7 @@ class Ending extends Phaser.Scene {
     this.next = this.add
       .sprite(640, 480, "arrow")
       .setVisible(false)
-      .setPosition(550, 330)
+      .setPosition(this.ending === 1 ? 300 : 550, 330)
       .setInteractive({ cursor: "pointer" });
     this.next.on("pointerdown", () => {
       this.next.setVisible(false);
@@ -92,7 +92,7 @@ class Ending extends Phaser.Scene {
           220,
           `While Abigail was sorting through old things and getting ready for the ceremony, she found ${
             this.ending === 1 ? "a" : "an old"
-          } photograph.`,
+          } photograph with a handwritten note on the back.`,
           {
             font: "18px monospace",
             fill: "black",
@@ -136,7 +136,12 @@ class Ending extends Phaser.Scene {
     this.textik?.destroy();
     if (this.phrases[this.textIndex]) {
       this.textik = this.add
-        .text(330, 240, this.phrases[this.textIndex], styleObject)
+        .text(
+          this.ending === 1 ? 30 : 330,
+          240,
+          this.phrases[this.textIndex],
+          styleObject
+        )
         .setOrigin(0, 0.5);
       this.textIndex += 1;
 
@@ -144,9 +149,14 @@ class Ending extends Phaser.Scene {
         this.next.setVisible(true);
       }, 2000);
     } else {
+      this.musicoff.setVisible(false);
+      this.musicon.setVisible(false);
       setTimeout(() => {
         this.add
-          .text(620, 460, "Thanks for playing", styleObject)
+          .text(620, 460, "Thanks for playing <3\nMorry", {
+            ...styleObject,
+            align: "right",
+          })
           .setOrigin(1, 1);
       }, 5000);
     }

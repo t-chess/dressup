@@ -45,7 +45,7 @@
         { 
             "on": "top2",
             "who": "mom",
-            "text": ["Did you miss our little shop, Abigail?", "I remember you helping me stock shelves", "and chatting with the regulars.", "(And the scent of fresh tobacco.)"],  
+            "text": ["I gave up my entire future because of you, and look what I got in return."],  
             "qty": 1
         },
         {
@@ -95,16 +95,18 @@
             "qty": 8
         }
     ],
-    "end1": [],
+    "end1": ["Ааааааааааа тут будет какой-то текстттт история очень интрересная да", "))))))))))))))))))))"],
     "end2": [
-        "Once upon a time there lived a young maiden with a voice so enchanting that even the birds would hush to listen.",
+        "\"Once upon a time, there lived a young maiden with a heart full of dreams, a voice more charming than the morning birds, and a spirit that radiated joy.",
+        "Her melodies flowed like rivers, filling the air with vibrant energy and uplifting everyone who listened. Her voice was her treasure and the source of her greatest hopes.",
         "One fateful day, a mysterious circus, with tents of deep crimson and gold, and performers who seemed to dance on the edge of reality itself, arrived at the town.",
-        "Among them was a dashing young man, a circus artist with eyes as sharp as a hawk’s and a smile as fleeting as the wind.",
-        "He whispered promises of a shared future, bright, wild and free life like the circus itself, of a life where her voice would be heard across the world.",
-        "But soon, she discovered she was with child, and the warmth in his eyes turned to ice. ",
-        "As the season ended, the circus packed up and vanished into the mist, leaving her behind without a word, like a fading dream.",
-        "Her once-bright dreams crumbled into dust. ",
-        "As the life inside her grew, her voice dimmed, faltering until it became nothing more than a faint echo of what it once had been—a ghost haunting her from within."
+        "Among them was a dashing young man, a circus artist with eyes as sharp as a hawk's and a smile as fleeting as the wind.",
+        "He whispered promises of a shared future, bright, wild and free like the circus itself, of a life where her voice would be heard across the world.",
+        "But soon, the young maiden discovered she was with child, and the warmth in his eyes turned to ice. ",
+        "The once-charming whispers became distant echoes of lies, and as the season ended, the circus packed up and vanished into the mist,",
+        "leaving her behind without a word, like a fading dream. Her once-bright dreams crumbled into dust. ",
+        "As the life inside her grew, her voice dimmed, faltering until it became nothing more than a faint echo of what it once had been—a ghost haunting her from within.",
+        "In the end, her voice was gone, and all that was left was a child born into the quiet void of her shattered dreams.\""
     ]
 
 }
