@@ -9,7 +9,7 @@
         { 
             "condition": "hairpreview6",
             "who": "mom",
-            "text": ["Ah i wish i had curly hair","ah i wish i had curly hair"],  
+            "text": ["Ah i wish i had curly hair","Ah i wish i had curly hair"],  
             "qty": 1
         },
         { 
@@ -29,7 +29,7 @@
         { 
             "on": "hair2",
             "who": "mom",
-            "text":["Welcome home, Abigail", "How was your time away?"],
+            "text":["Welcome home, Abigail.", "How was your time away?"],
             "qty": 1
         },
         { 
@@ -40,7 +40,7 @@
         { 
             "on": "hair9",
             "who": "mom",
-            "text":[ "This is where I feel closest to my old dreams","singing here in church.", "It's not the stage I imagined but it's a stage nonetheless"]  
+            "text":[ "This is where I feel closest to my old dreams","singing here in church.", "It's not the stage I imagined but it's a stage nonetheless."]  
         },
         { 
             "on": "top2",
@@ -51,12 +51,12 @@
         {
             "on": "top5",
             "who": "mom",
-            "text":["Meanwhile, think about your behavior in the basement"]
+            "text":["Meanwhile, think about your behavior in the basement."]
         },
         {
             "on": "top6",
             "who": "mom",
-            "text":["O Lord hear the cry of a girl", "for years of silence and fear have birthed within her a fury", "vast and ancient like the storms of old", "grant her solace for her anger is now a tempest beyond words","a grief that knows no comfort","may she find peace in Your embrace and let her soul be healed", "amen", "amen", "amen"]
+            "text":["O Lord hear the cry of a girl", "for years of silence and fear have birthed within her a fury", "vast and ancient like the storms of old.", "Grant her solace for her anger is now a tempest beyond words,","a grief that knows no comfort.","May she find peace in Your embrace and let her soul be healed.", "Amen"]
         },
         { 
             "on": "bottom2",
@@ -95,7 +95,16 @@
             "qty": 8
         }
     ],
-    "end1": ["Ааааааааааа тут будет какой-то текстттт история очень интрересная да", "))))))))))))))))))))"],
+    "end1": [
+        "\"Dear Abigail,",
+        "I know these words will never reach you, and it's far too late to offer any apology, but I write them nonetheless, as a final confession.",
+        "The devil took hold of me, and I became everything a mother shouldn't be — a vessel of cruelty and bitterness, chained to the bottle and lost to my own despair.",
+        "From the day you were born, my hands, which should have offered comfort, instead brought pain, and for long years, that pain was all I gave you.",
+        "You were right to leave, and in truth, I never wanted you to stay.",
+        "I have confessed my sins and sought refuge in the Lord, though I fear His mercy is beyond my reach.",
+        "May God grant you the peace I never could.",
+        "Mother\""
+    ],
     "end2": [
         "\"Once upon a time, there lived a young maiden with a heart full of dreams, a voice more charming than the morning birds, and a spirit that radiated joy.",
         "Her melodies flowed like rivers, filling the air with vibrant energy and uplifting everyone who listened. Her voice was her treasure and the source of her greatest hopes.",
