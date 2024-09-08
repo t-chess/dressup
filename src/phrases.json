@@ -45,7 +45,7 @@
         { 
             "on": "top2",
             "who": "mom",
-            "text": ["I gave up my entire future because of you, and look what I got in return."],  
+            "text": ["I gave up my entire future because of you,","and look what I got in return."],  
             "qty": 1
         },
         {

@@ -352,6 +352,11 @@ class Game extends Phaser.Scene {
       .setInteractive({ cursor: "pointer" });
     this.hand.on("pointerdown", () => {
       this.hand.setInteractive(false);
+      gameState.musicPause = {
+        play: this.music.isPlaying,
+        time: this.music.seek,
+      };
+      console.log(gameState.musicPause);
       this.music.stop();
       this.tweens.add({
         targets: this.hand,

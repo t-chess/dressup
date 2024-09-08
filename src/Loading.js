@@ -13,37 +13,37 @@ class Loading extends Phaser.Scene {
     );
 
     this.add.sprite(640, 480, "bg1").setPosition(320, 240);
-
-    this.add.graphics().fillStyle(0xffffff, 1).fillRect(50, 190, 540, 180);
+    this.add.sprite(640, 480, "hugepanel").setPosition(320, 240);
 
     this.add
-      .text(320, 150, "Abigail's sweet homecoming", {
-        font: "36px monospace",
+      .text(320, 140, "Abigail's Sweet Homecoming", {
+        font: "35px monospace",
         fill: "black",
-        backgroundColor: "white",
       })
       .setOrigin(0.5, 0.5)
       .setInteractive({ cursor: "pointer" });
-    this.add.text(
-      70,
-      200,
-      "After spending a few years away from her hometown, 19-year-old Abigail is finally visiting to reunite with her beloved mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special. Let the dress-up fun begin and create unforgettable memories for this heartwarming homecoming!",
-      {
-        font: "18px monospace",
-        fill: "black",
-        lineSpacing: 2,
-        align: "center",
-        wordWrap: { width: 540, useAdvancedWrap: true },
-      }
-    );
+    this.add
+      .text(
+        320,
+        240,
+        "After spending a few years away from her hometown, 19-year-old Abigail is finally visiting to reunite with her beloved mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.",
+        {
+          font: "18px monospace",
+          fill: "black",
+          lineSpacing: 2,
+          align: "center",
+          wordWrap: { width: 540, useAdvancedWrap: true },
+        }
+      )
+      .setOrigin(0.5, 0.5);
 
     let progressBox = this.add
       .graphics()
       .fillStyle(0x222222, 1)
-      .fillRect(210, 395, 220, 30);
+      .fillRect(210, 335, 220, 30);
     let progressBar = this.add.graphics();
     let playButton = this.add
-      .text(320, 400, "Play", {
+      .text(320, 340, "Play", {
         font: "36px monospace",
         fill: "#fff",
         backgroundColor: "black",
@@ -57,7 +57,7 @@ class Loading extends Phaser.Scene {
       progressBar
         .clear()
         .fillStyle(0xffffff, 1)
-        .fillRect(215, 400, 210 * value, 20);
+        .fillRect(215, 340, 210 * value, 20);
     });
     // !!!!!!!!! remove
     const start = () => {

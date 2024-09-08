@@ -51,10 +51,11 @@ class Ending extends Phaser.Scene {
     this.musicon = this.add
       .sprite(640, 480, "musicon")
       .setPosition(590, 50)
+      .setVisible(gameState.musicPause.play ? true : false)
       .setInteractive({ cursor: "pointer" });
     this.musicoff = this.add
       .sprite(640, 480, "musicoff")
-      .setVisible(false)
+      .setVisible(gameState.musicPause.play ? false : true)
       .setPosition(590, 50)
       .setInteractive({ cursor: "pointer" });
 
@@ -70,7 +71,12 @@ class Ending extends Phaser.Scene {
 
     this.music = this.sound.add("music");
     this.music.loop = true;
-    this.music.play();
+    if (gameState.musicPause.play) {
+      this.music.play({ seek: gameState.musicPause.time });
+    } else {
+      this.music.play();
+      this.music.pause();
+    }
     this.sound.pauseOnBlur = false;
     this.musicoff.on("pointerdown", () => {
       this.music.resume();
