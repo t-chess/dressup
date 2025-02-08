@@ -1,9 +1,9 @@
-import gameState from "./gameState";
-import phrases from "./phrases.json";
+import gameState from "../gameState";
+import phrases from "../phrases.json";
 
-class Game extends Phaser.Scene {
+export default class Main extends Phaser.Scene {
   constructor() {
-    super({ key: "Game" });
+    super("Main");
   }
   create() {
     Array.from({ length: gameState.bgtotal }, (_, i) => i + 1).forEach((i) => {
@@ -386,5 +386,3 @@ class Game extends Phaser.Scene {
     });
   }
 }
-
-export default Game;

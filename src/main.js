@@ -1,8 +1,8 @@
 import Phaser from "phaser";
-import Loading from "./Loading";
-import Game from "./Game";
-import PreLoading from "./PreLoading";
-import Ending from "./Ending";
+import Loading from "./scenes/Loading";
+import Main from "./scenes/Main";
+import PreLoading from "./scenes/PreLoading";
+import Ending from "./scenes/Ending";
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -10,5 +10,5 @@ const game = new Phaser.Game({
   height: 480,
   parent: "container",
   backgroundColor: "0xFFFFFF",
-  scene: [PreLoading, Loading, Game, Ending],
+  scene: [PreLoading, Loading, Main, Ending],
 });

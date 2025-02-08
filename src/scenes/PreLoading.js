@@ -1,6 +1,12 @@
-class PreLoading extends Phaser.Scene {
+import registerUI from "../UI/registerUI";
+
+export default class PreLoading extends Phaser.Scene {
   constructor() {
     super({ key: "PreLoading" });
+  }
+  init() {
+    registerUI();
+
   }
   preload() {
     this.load.image("bg1", "assets/bg1.png");
@@ -10,5 +16,3 @@ class PreLoading extends Phaser.Scene {
     });
   }
 }
-
-export default PreLoading;

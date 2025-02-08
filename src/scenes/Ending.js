@@ -1,9 +1,9 @@
-import gameState from "./gameState";
-import phrases from "./phrases.json";
+import gameState from "../gameState";
+import phrases from "../phrases.json";
 
-class Ending extends Phaser.Scene {
+export default class Ending extends Phaser.Scene {
   constructor() {
-    super({ key: "Ending" });
+    super("Ending");
   }
   preload() {
     this.load.image("end1", "assets/end1.png");
@@ -168,5 +168,3 @@ class Ending extends Phaser.Scene {
     }
   }
 }
-
-export default Ending;

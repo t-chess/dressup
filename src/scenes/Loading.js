@@ -1,14 +1,15 @@
-import gameState from "./gameState";
+import gameState from "../gameState";
 
-class Loading extends Phaser.Scene {
+export default class Loading extends Phaser.Scene {
   constructor() {
-    super({ key: "Loading" });
+    super("Loading");
   }
   preload() {
+    this.load.setPath("assets");
     // loading screen
     Array.from({ length: gameState.bgtotal - 1 }, (_, i) => i + 2).forEach(
       (i) => {
-        this.load.image("bg" + i, "assets/bg" + i + ".png");
+        this.load.image("bg" + i, "bg" + i + ".png");
       }
     );
 
@@ -42,6 +43,7 @@ class Loading extends Phaser.Scene {
       .fillStyle(0x222222, 1)
       .fillRect(210, 335, 220, 30);
     let progressBar = this.add.graphics();
+
     let playButton = this.add
       .text(320, 340, "Play", {
         font: "36px monospace",
@@ -50,7 +52,7 @@ class Loading extends Phaser.Scene {
       })
       .setOrigin(0.5, 0.5)
       .setInteractive({ cursor: "pointer" });
-    playButton.on("pointerdown", () => this.scene.start("Game"));
+    playButton.on("pointerdown", () => this.scene.start("Main"));
     playButton.setVisible(false);
 
     this.load.on("progress", function (value) {
@@ -61,7 +63,7 @@ class Loading extends Phaser.Scene {
     });
     // !!!!!!!!! remove
     const start = () => {
-      this.scene.start("Game");
+      this.scene.start("Main");
     };
     //
     this.load.on("complete", function () {
@@ -71,23 +73,28 @@ class Loading extends Phaser.Scene {
       // start(); // !!!!!!!!!!! remove
     });
     // bodies
-    this.load.image("mother", "assets/mom.png");
-    this.load.image("abigail", "assets/gail.png");
+    this.load.image("mother", "mom.png");
+    this.load.image("abigail", "gail.png");
 
     // interface
-    this.load.image("hairbtn", "assets/interface/hairbtn.png");
-    this.load.image("topsbtn", "assets/interface/topsbtn.png");
-    this.load.image("bottomsbtn", "assets/interface/bottomsbtn.png");
-    this.load.image("rightpanel", "assets/interface/rightpanel.png");
-    this.load.image("arrow", "assets/interface/arrow.png");
-    this.load.image("arrowgail", "assets/interface/arrowgail.png");
-    this.load.image("arrowmom", "assets/interface/arrowmom.png");
-    this.load.image("btndone", "assets/interface/btndone.png");
-    this.load.image("bgbtn", "assets/interface/bgbtn.png");
-    this.load.image("musicon", "assets/interface/musicon.png");
-    this.load.image("musicoff", "assets/interface/musicoff.png");
+    this.load.image("hairbtn", "interface/hairbtn.png");
+    this.load.image("topsbtn", "interface/topsbtn.png");
+    this.load.image("bottomsbtn", "interface/bottomsbtn.png");
+    this.load.image("rightpanel", "interface/rightpanel.png");
+    this.load.image("arrow", "interface/arrow.png");
+    this.load.image("arrowgail", "interface/arrowgail.png");
+    this.load.image("arrowmom", "interface/arrowmom.png");
+    this.load.image("btndone", "interface/btndone.png");
+    this.load.image("bgbtn", "interface/bgbtn.png");
+    this.load.image("musicon", "interface/musicon.png");
+    this.load.image("musicoff", "interface/musicoff.png");
 
-    this.load.audio("music", "assets/interface/LastWaltz.mp3");
+    
+    this.playBtn = this.add.button(200, 300, 'Play', () => {
+      console.log('Play button clicked!');
+  });
+
+    this.load.audio("music", "interface/LastWaltz.mp3");
 
     this.loadSet("hair", "mom");
     this.loadSet("top", "mom");
@@ -97,22 +104,20 @@ class Loading extends Phaser.Scene {
     this.loadSet("top", "gail");
     this.loadSet("bottom", "gail");
 
-    this.load.image("hand", "assets/hand.png");
-    this.load.image("eyes", "assets/mom/eyes.png");
+    this.load.image("hand", "hand.png");
+    this.load.image("eyes", "mom/eyes.png");
   }
   loadSet(name, who) {
     let total = gameState[who][name + "total"];
     for (var i = 1; i <= total; i++) {
       this.load.image(
         who + name + i,
-        "assets/" + who + "/" + name + i + ".png"
+        who + "/" + name + i + ".png"
       );
       this.load.image(
         who + name + "preview" + i,
-        "assets/" + who + "/" + name + "preview" + i + ".png"
+        who + "/" + name + "preview" + i + ".png"
       );
     }
   }
 }
-
-export default Loading;
