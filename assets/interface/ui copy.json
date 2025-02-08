@@ -1,0 +1,41 @@
+{
+    "compressionlevel": -1,
+    "width": 30,
+    "height": 4,
+    "tilewidth": 20,
+    "tileheight": 20,
+    "layers": [
+      {
+        "name": "ui_tilelayer",
+        "type": "tilelayer",
+        "opacity":1,
+        "visible":true,
+        "width": 30,
+        "height": 4,
+        "x":0,
+        "y":0,
+        "data": [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 16, 17, 18,
+          2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 23, 24, 25, 26
+        ]
+      }
+    ],
+    "renderorder":"right-down",
+    "orientation":"orthogonal",
+    "tilesets": [
+      {
+        "firstgid": 1,
+        "imageheight":80,
+        "imagewidth":600,
+        "tileheight":20,
+        "tilewidth":20,
+        "margin":0,
+        "spacing":0,
+        "image": "ui.png",
+        "name": "ui_tileset"
+      }
+    ]
+  }
+  

@@ -13,65 +13,17 @@ export default class Loading extends Phaser.Scene {
       }
     );
 
-    this.add.sprite(640, 480, "bg1").setPosition(320, 240);
-    this.add.sprite(640, 480, "hugepanel").setPosition(320, 240);
+    this.add.sprite(640, 480, "loadingBg").setPosition(320, 240);
+    const title = this.add.panel(100,120,'md',11,2, "Abigail's Sweet Homecoming", 24)
+    title.invertColors();
+    const panel1 = this.add.panel(40,200,'md',14,3, "After spending a few years away from her hometown, 19-year-old Abigaïl is finally visiting to reunite with her mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.")
+    panel1.invertColors();
 
-    this.add
-      .text(320, 140, "Abigail's Sweet Homecoming", {
-        font: "35px monospace",
-        fill: "black",
-      })
-      .setOrigin(0.5, 0.5)
-      .setInteractive({ cursor: "pointer" });
-    this.add
-      .text(
-        320,
-        240,
-        "After spending a few years away from her hometown, 19-year-old Abigail is finally visiting to reunite with her beloved mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.",
-        {
-          font: "18px monospace",
-          fill: "black",
-          lineSpacing: 2,
-          align: "center",
-          wordWrap: { width: 540, useAdvancedWrap: true },
-        }
-      )
-      .setOrigin(0.5, 0.5);
-
-    let progressBox = this.add
-      .graphics()
-      .fillStyle(0x222222, 1)
-      .fillRect(210, 335, 220, 30);
-    let progressBar = this.add.graphics();
-
-    let playButton = this.add
-      .text(320, 340, "Play", {
-        font: "36px monospace",
-        fill: "#fff",
-        backgroundColor: "black",
-      })
-      .setOrigin(0.5, 0.5)
-      .setInteractive({ cursor: "pointer" });
-    playButton.on("pointerdown", () => this.scene.start("Main"));
-    playButton.setVisible(false);
-
-    this.load.on("progress", function (value) {
-      progressBar
-        .clear()
-        .fillStyle(0xffffff, 1)
-        .fillRect(215, 340, 210 * value, 20);
-    });
-    // !!!!!!!!! remove
+    this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Main"))
     const start = () => {
       this.scene.start("Main");
     };
-    //
-    this.load.on("complete", function () {
-      progressBar.destroy();
-      progressBox.destroy();
-      playButton.setVisible(true);
-      // start(); // !!!!!!!!!!! remove
-    });
+
     // bodies
     this.load.image("mother", "mom.png");
     this.load.image("abigail", "gail.png");
@@ -88,11 +40,6 @@ export default class Loading extends Phaser.Scene {
     this.load.image("bgbtn", "interface/bgbtn.png");
     this.load.image("musicon", "interface/musicon.png");
     this.load.image("musicoff", "interface/musicoff.png");
-
-    
-    this.playBtn = this.add.button(200, 300, 'Play', () => {
-      console.log('Play button clicked!');
-  });
 
     this.load.audio("music", "interface/LastWaltz.mp3");
 

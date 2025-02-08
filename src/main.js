@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 import Loading from "./scenes/Loading";
 import Main from "./scenes/Main";
-import PreLoading from "./scenes/PreLoading";
 import Ending from "./scenes/Ending";
+import BootScene from "./UI/BootScene";
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -10,5 +10,5 @@ const game = new Phaser.Game({
   height: 480,
   parent: "container",
   backgroundColor: "0xFFFFFF",
-  scene: [PreLoading, Loading, Main, Ending],
+  scene: [new BootScene("assets/bg1.png"), Loading, Main, Ending],
 });

@@ -297,6 +297,7 @@ export default class Main extends Phaser.Scene {
     let styleObject = {
       backgroundColor: "black",
       color: "white",
+      fontSize: "16px"
     };
     let tempText = this.add.text(0, 0, textArray[index], styleObject);
     let textWidth = tempText.width;
