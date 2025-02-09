@@ -7,9 +7,14 @@ export default class Loading extends Phaser.Scene {
   preload() {
     this.load.setPath("assets");
     // loading screen
-    Array.from({ length: gameState.bgtotal - 1 }, (_, i) => i + 2).forEach(
+    Array.from({ length: gameState.bgtotal }, (_, i) => i + 1).forEach(
       (i) => {
         this.load.image("bg" + i, "bg" + i + ".png");
+      }
+    );
+    Array.from({ length: gameState.cutScenes }, (_, i) => i + 1).forEach(
+      (i) => {
+        i>0&&this.load.image("cut" + i, "scenes/cut" + i + ".png");
       }
     );
 
@@ -19,7 +24,7 @@ export default class Loading extends Phaser.Scene {
     const panel1 = this.add.panel(40,200,'md',14,3, "After spending a few years away from her hometown, 19-year-old Abigaïl is finally visiting to reunite with her mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.")
     panel1.invertColors();
 
-    this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Main"))
+    this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Intro"))
     const start = () => {
       this.scene.start("Main");
     };

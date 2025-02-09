@@ -1,5 +1,6 @@
 import Panel from "./Panel";
 import ProgressBar from "./ProgressBar";
+import SpeechBox from "./SpeechBox";
 
 export default class BootScene extends Phaser.Scene {
     constructor(bg, next="Loading" ) {
@@ -18,6 +19,11 @@ export default class BootScene extends Phaser.Scene {
             this.displayList.add(obj);
             return obj;
         });
+        Phaser.GameObjects.GameObjectFactory.register('speechbox', function (...args){
+            const obj = new SpeechBox(this.scene, ...args)
+            this.displayList.add(obj);
+            return obj;
+        });
     }
     preload() {
         this.load.atlas("ui_atlas","assets/interface/ui.png","assets/interface/ui.json");
@@ -28,12 +34,6 @@ export default class BootScene extends Phaser.Scene {
         }
     }
     create() {
-        const uiFrames = this.textures.get('ui_atlas').getFrameNames();
-
-        // console.log(uiFrames)
-        // const img = this.add.image(20, 460, 'ui_atlas', uiFrames[0]).setOrigin(0,1);
-
-
         this.time.delayedCall(100, () => {
             this.scene.start(this.afterBootScene);
         });

@@ -1,5 +1,5 @@
 export default class Panel extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, type='md', width, height, text, fontSize=16, onClick) {
+    constructor(scene, x, y, type='md', width, height, text, fontSize=16) {
         super(scene, x, y);
         this.scene = scene;
         this.type = type;
@@ -8,14 +8,12 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.height = height;
         this.text = text;
         this.fontSize = fontSize;
-        this.onClick = onClick;
 
-        this.buildPanel();
+        this.init();
         if (text) this.addText();
-        if (onClick) this.makeInteractive();
         scene.add.existing(this);
     }
-    buildPanel() {
+    init() {
         const addTile = (x, y, frame) => this.add(this.scene.add.image(x, y, "ui_atlas", frame).setOrigin(0));
 
         let bg = this.scene.add.rectangle(
@@ -61,19 +59,23 @@ export default class Panel extends Phaser.GameObjects.Container {
             }
         ).setOrigin(0.5)); 
     }
-    makeInteractive() {
+    onClick(callback) {
+        if (!callback) {
+            this.disableInteractive();
+            return
+        }
         this.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.width * this.tileSize, this.height * this.tileSize), Phaser.Geom.Rectangle.Contains);
-        this.input.cursor = "pointer";
         this.on("pointerover", () => {
-            this.setPosition(this.x, this.y - 2); // Move up slightly
+            this.scene.input.setDefaultCursor("pointer");
+            this.setPosition(this.x, this.y - 2);
         });
-
         this.on("pointerout", () => {
-            this.setPosition(this.x, this.y + 2); // Move back to original position
+            this.scene.input.setDefaultCursor("default"); 
+            this.setPosition(this.x, this.y + 2);
         });
         this.on("pointerdown", () => {
             this.scene.sound.play("ui_click");
-            this.onClick();
+            callback();
         });
     }
     invertColors() {
