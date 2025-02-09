@@ -6,7 +6,8 @@ sceneType = {
 }
 dialogType = {
     character: "Name",
-    text: [string],
+    text: string,
+    options: [text,callback, after='continue']
     typingSpeed
 }
 
@@ -15,12 +16,13 @@ TODO : dialog with options
 */
 
 export default class CutScene extends Phaser.Scene {
-    constructor(key, scenesArray=[], nextScene) {
+    constructor(key, nextScene) {
       super({key});
-      this.scenesArray = scenesArray;
+      this.scenesArray = [];
       this.nextScene = nextScene;
     }
-    create() {
+    setScenes(arr) {
+        this.scenesArray = arr;
         this.nextIndex = 0;
         this.scenesArray.forEach(scene => {
             this[scene.bgKey] = this.add
@@ -28,8 +30,9 @@ export default class CutScene extends Phaser.Scene {
               .setVisible(false)
               .setPosition(320, 240);
         });
-        this.nextArrow = this.add.image(620, 460, "ui_atlas", "arrow-solo").setOrigin(1).setVisible(false);
+        this.nextArrow = this.add.image(620, 460, "ui_atlas", "arrow-solo").setOrigin(1).setVisible(false).setInteractive({cursor:"pointer"});
         this.speechbox = this.add.speechbox();
+        this.add.soundbutton();
 
         this.continue();
     }
@@ -45,8 +48,7 @@ export default class CutScene extends Phaser.Scene {
         this.time.delayedCall(1000, ()=>{
             if (!currentScene.dialog||!currentScene.dialog.length) {
                 this.nextArrow.setVisible(true);
-                this[currentScene.bgKey].setInteractive();
-                this[currentScene.bgKey].once("pointerdown", () => {
+                this.nextArrow.once("pointerdown", () => {
                     this.sound.play("ui_click");
                     this.continue();
                 });
@@ -67,18 +69,44 @@ export default class CutScene extends Phaser.Scene {
         let char;
         const playNext = () => {
             if (index < dialogArray.length) {
-                const { character, text } = dialogArray[index];
+                const { character, text, options } = dialogArray[index];
                 index++;
                 if (character!==char) {
                     this.speechbox.setName(character);
                     char = character;
                 }
-                this.speechbox.run(text, playNext);
+                this.speechbox.run(text, options, (selectedOption)=>{
+                    this.handleOption(selectedOption, playNext)
+                });
             } else {
                 onComplete();
             }
         };
         playNext();
     }
-
+    handleOption(selectedOption, playNext) {
+        if (!selectedOption || !selectedOption.after){
+            playNext();
+            return
+        }
+        switch (selectedOption.after) {
+            case "continue":
+                playNext();
+                break;
+            case "break":
+                this.scene.start(this.nextScene);
+                break;
+            case "response-continue":
+                this.speechbox.run(selectedOption.response, [], playNext);
+                break;
+            case "response-break":
+                this.speechbox.run(selectedOption.response, [], ()=>{
+                    this.scene.start(this.nextScene);
+                });
+                break;
+            default:
+                playNext();
+                break;
+        }
+    }
 }

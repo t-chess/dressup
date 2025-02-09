@@ -13,85 +13,47 @@ export default class Main extends Phaser.Scene {
         .setPosition(320, 240);
     });
     // left buttons
-    this.hairbtn = this.add
-      .sprite(640, 480, "hairbtn")
-      .setPosition(80, 130)
-      .setInteractive({ cursor: "pointer" });
-    this.hairbtn.on("pointerdown", () => {
+    this.hairbtn = this.add.panel(20, 80, "md", 3, 2, "volossya", 20);
+    this.hairbtn.onClick(() => {
       this.onNavClicked("hair");
     });
-    this.topsbtn = this.add
-      .sprite(640, 480, "topsbtn")
-      .setPosition(80, 230)
-      .setInteractive({ cursor: "pointer" });
-    this.topsbtn.on("pointerdown", () => {
+    this.topsbtn = this.add.panel(20, 160, "md", 3, 2, "Kofty", 20);
+    this.topsbtn.onClick(() => {
       this.onNavClicked("top");
     });
-    this.bottomsbtn = this.add
-      .sprite(640, 480, "bottomsbtn")
-      .setPosition(80, 330)
-      .setInteractive({ cursor: "pointer" });
-    this.bottomsbtn.on("pointerdown", () => {
+    this.bottomsbtn = this.add.panel(20, 240, "md", 3, 2, "SHTANY", 20);
+    this.bottomsbtn.onClick(() => {
       this.onNavClicked("bottom");
+    });
+    this.add.panel(20, 320, "md", 3, 2, "testik", 20).onClick(() => {
+      // this.topsbtn.invertColors();
+      // this.onNavClicked("bottom");
     });
 
     //
 
     // right panel
-    this.rightPanel1 = this.add
-      .sprite(640, 480, "rightpanel")
-      .setPosition(560, 150);
-    this.rightPanel2 = this.add
-      .sprite(640, 480, "rightpanel")
-      .setPosition(560, 310);
+    this.rightPanel1 = this.add.panel(500, 80, "md", 3, 4).invertColors();
+    this.rightPanel2 = this.add.panel(500, 240, "md", 3, 4).invertColors();
+
     this.arrowPrev = this.add
-      .sprite(640, 480, "arrow")
-      .setPosition(530, 410)
+      .sprite(530, 420, "ui_atlas", "arrow-solo")
       .setFlipX(true)
       .setInteractive({ cursor: "pointer" });
     this.arrowNext = this.add
-      .sprite(640, 480, "arrow")
-      .setPosition(590, 410)
+      .sprite(590, 420, "ui_atlas", "arrow-solo")
       .setInteractive({ cursor: "pointer" });
+
     this.bgbtn = this.add
-      .sprite(640, 480, "bgbtn")
-      .setPosition(530, 50)
-      .setInteractive({ cursor: "pointer" });
-    this.musicon = this.add
-      .sprite(640, 480, "musicon")
-      .setPosition(590, 50)
-      .setInteractive({ cursor: "pointer" });
-    this.musicoff = this.add
-      .sprite(640, 480, "musicoff")
-      .setVisible(false)
-      .setPosition(590, 50)
+      .sprite(550, 40, "ui_atlas","circle")
       .setInteractive({ cursor: "pointer" });
 
-    this.arrowgail = this.add
-      .sprite(640, 480, "arrowgail")
-      .setPosition(80, 410)
-      .setVisible(false)
-      .setInteractive({ cursor: "pointer" });
-    this.arrowmom = this.add
-      .sprite(640, 480, "arrowmom")
-      .setPosition(80, 410)
-      .setVisible(false)
-      .setInteractive({ cursor: "pointer" });
+    this.arrowgail = this.add.arrowpanel(20, 400, 6, "Gail");
+    this.arrowgail.setVisible(false).onClick(this.changeChar);
+    this.arrowmom = this.add.arrowpanel(20, 400, 6, "Mom", "left");
+    this.arrowmom.setVisible(false).onClick(this.changeChar);
 
-    this.music = this.sound.add("music");
-    this.music.loop = true;
-    this.music.play();
-    this.sound.pauseOnBlur = false;
-    this.musicoff.on("pointerdown", () => {
-      this.music.resume();
-      this.musicoff.visible = false;
-      this.musicon.visible = true;
-    });
-    this.musicon.on("pointerdown", () => {
-      this.music.pause();
-      this.musicoff.visible = true;
-      this.musicon.visible = false;
-    });
+    this.add.soundbutton();
 
     this.bgbtn.on("pointerdown", () => {
       let next = gameState.bg + 1 > gameState.bgtotal ? 1 : gameState.bg + 1;
@@ -143,21 +105,6 @@ export default class Main extends Phaser.Scene {
 
       this.checkChange("preview");
     });
-
-    const changeChar = () => {
-      let keys = Object.keys(gameState).filter((k) =>
-        k.includes(gameState.currentChar + gameState.currentSection + "preview")
-      );
-      keys.forEach((k) => (gameState[k].visible = false));
-      gameState.currentSection = null;
-      this["arrow" + gameState.currentChar].visible = true;
-      gameState.currentChar = gameState.currentChar == "mom" ? "gail" : "mom";
-      this["arrow" + gameState.currentChar].visible = false;
-      this.onNavClicked("hair");
-      this.checkChange("preview");
-    };
-    this.arrowgail.on("pointerdown", changeChar);
-    this.arrowmom.on("pointerdown", changeChar);
 
     // MOM
     this.mother = this.add.sprite(640, 480, "mother").setPosition(250, 248);
@@ -331,9 +278,8 @@ export default class Main extends Phaser.Scene {
       gameState[who + type + "preview" + (current + 1)].visible = true;
     }
     Object.keys(buttons).forEach((section) => {
-      buttons[section].preFX.clear();
       if (gameState.currentSection !== section) {
-        buttons[section].preFX.addColorMatrix().negative();
+        buttons[section]&&buttons[section].invertColors();
       }
     });
     if (
@@ -344,6 +290,18 @@ export default class Main extends Phaser.Scene {
       gameState.btnDone = true;
       this.btndone.visible = true;
     }
+    this.checkChange("preview");
+  }
+  changeChar() {
+    let keys = Object.keys(gameState).filter((k) =>
+      k.includes(gameState.currentChar + gameState.currentSection + "preview")
+    );
+    keys.forEach((k) => (gameState[k].visible = false));
+    gameState.currentSection = null;
+    this["arrow" + gameState.currentChar].visible = true;
+    gameState.currentChar = gameState.currentChar == "mom" ? "gail" : "mom";
+    this["arrow" + gameState.currentChar].visible = false;
+    this.onNavClicked("hair");
     this.checkChange("preview");
   }
   initHand() {

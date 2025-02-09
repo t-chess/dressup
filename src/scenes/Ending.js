@@ -48,16 +48,6 @@ export default class Ending extends Phaser.Scene {
       .setPosition(0, 0)
       .setOrigin(0)
       .setVisible(false);
-    this.musicon = this.add
-      .sprite(640, 480, "musicon")
-      .setPosition(590, 50)
-      .setVisible(gameState.musicPause.play ? true : false)
-      .setInteractive({ cursor: "pointer" });
-    this.musicoff = this.add
-      .sprite(640, 480, "musicoff")
-      .setVisible(gameState.musicPause.play ? false : true)
-      .setPosition(590, 50)
-      .setInteractive({ cursor: "pointer" });
 
     this.next = this.add
       .sprite(640, 480, "arrow")
@@ -67,26 +57,6 @@ export default class Ending extends Phaser.Scene {
     this.next.on("pointerdown", () => {
       this.next.setVisible(false);
       this.printText();
-    });
-
-    this.music = this.sound.add("music");
-    this.music.loop = true;
-    if (gameState.musicPause.play) {
-      this.music.play({ seek: gameState.musicPause.time });
-    } else {
-      this.music.play();
-      this.music.pause();
-    }
-    this.sound.pauseOnBlur = false;
-    this.musicoff.on("pointerdown", () => {
-      this.music.resume();
-      this.musicoff.visible = false;
-      this.musicon.visible = true;
-    });
-    this.musicon.on("pointerdown", () => {
-      this.music.pause();
-      this.musicoff.visible = true;
-      this.musicon.visible = false;
     });
 
     setTimeout(() => {
@@ -155,8 +125,6 @@ export default class Ending extends Phaser.Scene {
         this.next.setVisible(true);
       }, 2000);
     } else {
-      this.musicoff.setVisible(false);
-      this.musicon.setVisible(false);
       setTimeout(() => {
         this.add
           .text(620, 460, "Thanks for playing <3\nMorry", {

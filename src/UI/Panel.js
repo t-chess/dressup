@@ -75,6 +75,7 @@ export default class Panel extends Phaser.GameObjects.Container {
         });
         this.on("pointerdown", () => {
             this.scene.sound.play("ui_click");
+            this.scene.input.setDefaultCursor("default"); 
             callback();
         });
     }

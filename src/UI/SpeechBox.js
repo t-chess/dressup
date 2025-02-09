@@ -3,6 +3,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         super(scene, 20, 420);
         this.scene = scene;
         this.typingSpeed = typingSpeed;
+        this.options = [];
 
         this.init();
         this.setVisible(false);
@@ -37,7 +38,8 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
             this.add(this.nameBox);
         }
     }
-    run(text, onComplete){
+    run(text, options=[], onComplete){
+        this.clearOptions();
         this.setVisible(true);
         this.box.disableInteractive();
         this.textline.setText(""); 
@@ -51,15 +53,40 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
                 index++;
                 this.scene.time.delayedCall(this.typingSpeed, typeWriter);
             } else {
-                this.nextBtn.setVisible(true);
-                this.box.setInteractive();
-                this.box.once("pointerdown", () => {
-                    this.scene.sound.play("ui_click");
-                    this.setVisible(false);
-                    if (onComplete) onComplete();
-                });
+                if (options.length > 0) {
+                    this.showOptions(options,onComplete);
+                } else {
+                    this.nextBtn.setVisible(true);
+                    this.box.setInteractive({ cursor: "pointer" });
+                    this.box.once("pointerdown", () => {
+                        this.scene.sound.play("ui_click");
+                        this.setVisible(false);
+                        if (onComplete) onComplete();
+                    });
+                }
             }
         };
         typeWriter();
     }
+    showOptions(options,optCallback) {
+        let yOffset = 0;
+        options.reverse().forEach(({ text, callback, after="continue",response="" }, index) => {
+            const optionPanel = this.scene.add.panel(400, -40-yOffset, "sm", 10, 2, text);
+            optionPanel.onClick(() => {
+                this.scene.sound.play("ui_click");
+                this.clearOptions(); 
+                this.setVisible(false);
+                if (callback) callback();
+                if (optCallback) optCallback({text,after,response})
+            });
+            this.options.push(optionPanel);
+            this.add(optionPanel);
+            yOffset += 40;
+        });
+    }
+    clearOptions(){
+        this.options.forEach(option => option.destroy());
+        this.options = [];
+    }
+
 }
