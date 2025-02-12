@@ -15,30 +15,61 @@ export class Intro extends CutScene {
                 bgKey: "loadingBg"
             },
             {
-                bgKey: "cut2",
+                bgKey: "cut2", 
                 dialog: [
-                    { text: "The sea breeze is cold and the lighter won't light." },
+                    { text: "The sea breeze is sharp, and the lighter won't catch." }, 
                     {
-                        text: "Try again?",
+                        text: "Try flicking it again?",
                         options: [
-                            { text: "Try aggressively.", callback: () =>this.aggrolighter.play(), after: "response-continue", response: "Sparkles and no fire." },
-                            { text: "Kinda give up.", after: "continue" }
+                            { text: "Flick aggressively", callback: () =>this.aggrolighter.play(), after: "response-continue", response: "Still nothing. Stubborn piece of shit." },
+                            { text: "Flick dramatically", after: "response-continue", response: "Still nothing. What a tragic failure." }
                         ]
                     }
                 ]
             },
             {
-                bgKey: "cut3",
+                bgKey: "cut3", 
                 dialog: [
-                    { character: "Gail", text: "GRRRRRR fucking zazhigalka whyy" },
+                    { character: "Gail", text: "Oh, fucking wonderful." },
                     {
-                        text: "Ask a stranger for a lighter?",
+                        text: "Try asking someone for a lighter?",
                         options: [
-                            { text: "Yes", callback: ()=>this.zippo.play(), after: "response-continue", response: "Some stary perdun gave Gail his fancy zippo zapalovac." },
-                            { text: "No", after: "response-continue", response: "Lack of nicotine made you veri nervous." }
+                            { text: "Ask a nearby smoker", callback: ()=>this.zippo.play(), after: "response-continue", response: "The smoker reaches into his pocket, flips open his lighter, and holds it out." },
+                            { text: "Avoid unnecessary interaction", after: "response-continue", response: "Gail stays quiet and avoids eye contact. A smoker nearby sighs and passes her his lighter." }
                         ]
                     },
-                    { character: "ТАНЯ", text: "ОК ЭТО ВСЕ THE END" }
+                ]
+            },
+            {
+                bgKey: "loadingBg", 
+                dialog: [
+                    {
+                        character: "Smoker",
+                        text: "Huh... You look really familiar. Do I know you?",
+                        options: [
+                            { text: "...", after: "response-continue", response: "Ah yes, XYZ's kiddie, right?" },
+                            { text: "I don't think so.", after: "response-continue", response: "Nah, I recognize that face. XYZ's offspring, right?" },
+                            { text: "Maybe. I grew up here.", after: "response-continue", response: "Thought so. You look just like her." }
+                        ]
+                    },
+                ]
+            },
+            {
+                bgKey: "cut2",
+                dialog: [
+                    {
+                        character: "Smoker",
+                        text: "Damn. Bet she's just dying to see you."
+                    },
+                    {
+                        character: "Gail",
+                        text: "...",
+                        options: [
+                            {text: "..."}, 
+                            {text: "Yeah. Finally."},
+                            {text: "Mhm. She'll be speechless."},
+                        ]
+                    }
                 ]
             }
         ])

@@ -8,7 +8,7 @@ export default class Loading extends Phaser.Scene {
     this.load.setPath("assets");
     // load screen
     this.add.sprite(640, 480, "loadingBg").setPosition(320, 240);
-    this.add.panel(100,120,'md',11,2, "Abigail's Sweet Homecoming", 24)
+    this.add.panel(100,120,'md',11,2, "Gail's Sweet Homecoming", 24);
     this.add.panel(40,200,'md',14,3, "After spending a few years away from her hometown, 19-year-old Abigaïl is finally visiting to reunite with her mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.")
 
     // bgs & cutscenes

@@ -12,7 +12,8 @@ export default class Main extends Phaser.Scene {
         .setVisible(i > 1 ? false : true)
         .setPosition(320, 240);
     });
-    // left buttons
+
+    // left side UI
     this.hairbtn = this.add.panel(20, 80, "md", 3, 2, "volossya", 20);
     this.hairbtn.onClick(() => {
       this.onNavClicked("hair");
@@ -25,86 +26,39 @@ export default class Main extends Phaser.Scene {
     this.bottomsbtn.onClick(() => {
       this.onNavClicked("bottom");
     });
-    this.add.panel(20, 320, "md", 3, 2, "testik", 20).onClick(() => {
-      // this.topsbtn.invertColors();
-      // this.onNavClicked("bottom");
-    });
-
+    this.add.panel(20, 320, "md", 3, 2, "testik", 20);
+    this.arrowgail = this.add.arrowpanel(20, 400, 6, "Gail");
+    this.arrowgail.setVisible(false).onClick(()=>this.changeChar());
+    this.arrowmom = this.add.arrowpanel(20, 400, 6, "Mom", "left");
+    this.arrowmom.setVisible(false).onClick(()=>this.changeChar());
     //
 
-    // right panel
-    this.rightPanel1 = this.add.panel(500, 80, "md", 3, 4).invertColors();
-    this.rightPanel2 = this.add.panel(500, 240, "md", 3, 4).invertColors();
+    // right side UI
+    this.add.panel(500, 80, "md", 3, 4).invertColors();
+    this.add.panel(500, 240, "md", 3, 4).invertColors();
 
-    this.arrowPrev = this.add
+    this.add
       .sprite(530, 420, "ui_atlas", "arrow-solo")
       .setFlipX(true)
-      .setInteractive({ cursor: "pointer" });
-    this.arrowNext = this.add
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.changePreview("prev"));
+    this.add
       .sprite(590, 420, "ui_atlas", "arrow-solo")
-      .setInteractive({ cursor: "pointer" });
-
-    this.bgbtn = this.add
-      .sprite(550, 40, "ui_atlas","circle")
-      .setInteractive({ cursor: "pointer" });
-
-    this.arrowgail = this.add.arrowpanel(20, 400, 6, "Gail");
-    this.arrowgail.setVisible(false).onClick(this.changeChar);
-    this.arrowmom = this.add.arrowpanel(20, 400, 6, "Mom", "left");
-    this.arrowmom.setVisible(false).onClick(this.changeChar);
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.changePreview("next"));
 
     this.add.soundbutton();
 
-    this.bgbtn.on("pointerdown", () => {
-      let next = gameState.bg + 1 > gameState.bgtotal ? 1 : gameState.bg + 1;
-      this["bg" + gameState.bg].visible = false;
-      this["bg" + next].visible = true;
-      gameState.bg = next;
-    });
+    this.add
+      .sprite(550, 40, "ui_atlas","circle")
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        let next = gameState.bg + 1 > gameState.bgtotal ? 1 : gameState.bg + 1;
+        this["bg" + gameState.bg].visible = false;
+        this["bg" + next].visible = true;
+        gameState.bg = next;
+      });
 
-    this.arrowNext.on("pointerdown", () => {
-      let char = gameState.currentChar;
-      let section = gameState.currentSection;
-      let current = gameState[char][section];
-
-      gameState[char + section + "preview" + current].visible = false;
-      gameState[char + section + "preview" + (current + 1)].visible = false;
-
-      let next =
-        current + 2 < gameState[char][section + "total"] ? current + 2 : 1;
-      gameState[char + section + "preview" + next].visible = true;
-      gameState[char + section + "preview" + (next + 1)].visible = true;
-
-      gameState[char][section] = next;
-
-      if (!gameState.btnChangeChar && section === "bottom" && current == 1) {
-        gameState.btnChangeChar = true;
-        this.arrowgail.visible = true;
-      }
-      this.checkChange("preview");
-    });
-    this.arrowPrev.on("pointerdown", () => {
-      let char = gameState.currentChar;
-      let section = gameState.currentSection;
-      let current = gameState[char][section];
-
-      gameState[char + section + "preview" + current].visible = false;
-      gameState[char + section + "preview" + (current + 1)].visible = false;
-
-      let prev =
-        current === 1 ? gameState[char][section + "total"] - 1 : current - 2;
-      gameState[char + section + "preview" + prev].visible = true;
-      gameState[char + section + "preview" + (prev + 1)].visible = true;
-
-      gameState[char][section] = prev;
-
-      if (!gameState.btnChangeChar && section === "bottom" && current == 1) {
-        gameState.btnChangeChar = true;
-        this.arrowgail.visible = true;
-      }
-
-      this.checkChange("preview");
-    });
 
     // MOM
     this.mother = this.add.sprite(640, 480, "mother").setPosition(250, 248);
@@ -129,22 +83,17 @@ export default class Main extends Phaser.Scene {
       .setInteractive({ cursor: "pointer" });
 
     this.btndone.on("pointerdown", () => {
+      this.speechbox.setName("Gail");
       if (gameState.gailtop1._visible) {
-        this.addText(
-          ["This sweater doesn't feel appropriate for the occasion"],
-          0
-        );
+        this.speechbox.run("This sweater doesn't feel appropriate for the occasion");
         return;
       }
       if (gameState.gailtop4._visible) {
-        this.addText(
-          ["Who the hell wears an old school uniform to a funeral?"],
-          0
-        );
+        this.speechbox.run("Who the hell wears an old school uniform to a funeral?");
         return;
       }
       if (gameState.momtop5._visible && gameState.mombottom3._visible) {
-        this.addText(["I don't think mom would have understood this joke."], 0);
+        this.speechbox.run("I don't think mom would have understood this joke.");
         return;
       }
       Object.keys(gameState)
@@ -157,22 +106,22 @@ export default class Main extends Phaser.Scene {
         .filter((k) => k.includes("gail") || k.includes("mom"))
         .filter((k) => gameState[k]._visible === true);
       [
-        this.rightPanel1,
-        this.rightPanel2,
-        this.hairbtn,
-        this.topsbtn,
-        this.bottomsbtn,
-        this.arrowNext,
-        this.arrowPrev,
-        this.arrowgail,
-        this.arrowmom,
-        this.btndone,
-        this.musicon,
-        this.musicoff,
-        this.bgbtn,
+        // this.rightPanel1,
+        // this.rightPanel2,
+        // this.hairbtn,
+        // this.topsbtn,
+        // this.bottomsbtn,
+        // this.arrowNext,
+        // this.arrowPrev,
+        // this.arrowgail,
+        // this.arrowmom,
+        // this.btndone,
+        // this.musicon,
+        // this.musicoff,
+        // this.bgbtn,
       ].forEach((el) => el.destroy());
       setTimeout(() => {
-        this.addText(["It seems we're ready", "just one last thing to do"], 0);
+        this.speechbox.run("It seems we're ready.", undefined, ()=>this.speechbox.run("Just one last thing to do."));
         setTimeout(() => {
           this.abigail.destroy();
           Object.keys(gameState)
@@ -187,6 +136,9 @@ export default class Main extends Phaser.Scene {
         }, 7000);
       }, 2000);
     });
+
+    
+    this.speechbox = this.add.speechbox();
 
     this.onNavClicked("hair");
   }
@@ -213,6 +165,28 @@ export default class Main extends Phaser.Scene {
       });
     }
   }
+  changePreview = (direction) => {
+    const char = gameState.currentChar;
+    const section = gameState.currentSection;
+    const current = gameState[char][section];
+
+    const total = gameState[char][section + "total"];
+    const newIndex = direction === "next"
+        ? (current + 2 < total ? current + 2 : 1)
+        : (current === 1 ? total - 1 : current - 2);
+
+    gameState[char + section + "preview" + current].visible = false;
+    gameState[char + section + "preview" + (current + 1)].visible = false;
+    gameState[char + section + "preview" + newIndex].visible = true;
+    gameState[char + section + "preview" + (newIndex + 1)].visible = true;
+
+    gameState[char][section] = newIndex;
+    if (!gameState.btnChangeChar && section === "bottom" && current === 1) {
+        gameState.btnChangeChar = true;
+        this.arrowgail.visible = true;
+    }
+    this.checkChange("preview");
+  }
   checkChange(type) {
     phrases[type].forEach((ph) => {
       let show;
@@ -230,35 +204,10 @@ export default class Main extends Phaser.Scene {
         }
       }
       if (show) {
-        let count = ph.qty ? ph.qty : 1;
-        for (let i = 0; i < count; i++) {
-          this.addText(ph.text, 0);
-        }
+        const arr = ph.text.map(str=>({character:ph.who,text:str}));
+        this.speechbox.playDialogSequence(arr);
       }
     });
-  }
-  addText(textArray, index) {
-    if (index >= textArray.length) {
-      return;
-    }
-    let styleObject = {
-      backgroundColor: "black",
-      color: "white",
-      fontSize: "16px"
-    };
-    let tempText = this.add.text(0, 0, textArray[index], styleObject);
-    let textWidth = tempText.width;
-    let textHeight = tempText.height;
-    tempText.destroy();
-    let x = Phaser.Math.Between(0, 640 - textWidth);
-    let y = Phaser.Math.Between(0, 480 - textHeight);
-    let textik = this.add.text(x, y, textArray[index], styleObject);
-    setTimeout(() => {
-      textik.destroy();
-    }, 8000);
-    setTimeout(() => {
-      this.addText(textArray, index + 1);
-    }, 3000);
   }
   onNavClicked(type) {
     const buttons = {
@@ -278,9 +227,7 @@ export default class Main extends Phaser.Scene {
       gameState[who + type + "preview" + (current + 1)].visible = true;
     }
     Object.keys(buttons).forEach((section) => {
-      if (gameState.currentSection !== section) {
-        buttons[section]&&buttons[section].invertColors();
-      }
+      buttons[section].invertColors(gameState.currentSection===section?'on':'off');
     });
     if (
       !gameState.btnDone &&
@@ -311,12 +258,11 @@ export default class Main extends Phaser.Scene {
       .setInteractive({ cursor: "pointer" });
     this.hand.on("pointerdown", () => {
       this.hand.setInteractive(false);
-      gameState.musicPause = {
-        play: this.music.isPlaying,
-        time: this.music.seek,
-      };
-      console.log(gameState.musicPause);
-      this.music.stop();
+      // gameState.musicPause = {
+      //   play: this.music.isPlaying,
+      //   time: this.music.seek,
+      // };
+      // this.music.stop();
       this.tweens.add({
         targets: this.hand,
         x: this.hand.x - 50,

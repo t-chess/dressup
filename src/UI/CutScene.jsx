@@ -16,10 +16,9 @@ TODO : dialog with options
 */
 
 export default class CutScene extends Phaser.Scene {
-    constructor(key, nextScene) {
+    constructor(key) {
       super({key});
       this.scenesArray = [];
-      this.nextScene = nextScene;
     }
     setScenes(arr) {
         this.scenesArray = arr;
@@ -36,14 +35,20 @@ export default class CutScene extends Phaser.Scene {
 
         this.continue();
     }
+    onEnd(callback) {
+        this.endCallback = callback;
+    }
     continue() {
-        if (this.nextIndex===this.scenesArray.length) {
-            this.scene.start(this.nextScene);
+        if (this.nextIndex===this.scenesArray.length&&this.endCallback) {
+            this.endCallback();
             return
         }
         this.nextArrow.setVisible(false);
         const currentScene = this.scenesArray[this.nextIndex];
-        this[currentScene.bgKey].setVisible(true);
+        this.scenesArray.forEach((scene,i) => {
+            this[scene.bgKey].setVisible(i===this.nextIndex?true:false)
+        })
+        // this[currentScene.bgKey].setVisible(true);
 
         this.time.delayedCall(1000, ()=>{
             if (!currentScene.dialog||!currentScene.dialog.length) {
@@ -53,7 +58,7 @@ export default class CutScene extends Phaser.Scene {
                     this.continue();
                 });
             } else {
-                this.playDialogSequence(currentScene.dialog, () => {
+                this.speechbox.playDialogSequence(currentScene.dialog, () => {
                     this.time.delayedCall(500, () => {
                         this.continue();
                     });
@@ -63,50 +68,5 @@ export default class CutScene extends Phaser.Scene {
         this[currentScene.bgKey].setVisible(true);
         this.nextIndex++;
 
-    }
-    playDialogSequence(dialogArray, onComplete) {
-        let index = 0;
-        let char;
-        const playNext = () => {
-            if (index < dialogArray.length) {
-                const { character, text, options } = dialogArray[index];
-                index++;
-                if (character!==char) {
-                    this.speechbox.setName(character);
-                    char = character;
-                }
-                this.speechbox.run(text, options, (selectedOption)=>{
-                    this.handleOption(selectedOption, playNext)
-                });
-            } else {
-                onComplete();
-            }
-        };
-        playNext();
-    }
-    handleOption(selectedOption, playNext) {
-        if (!selectedOption || !selectedOption.after){
-            playNext();
-            return
-        }
-        switch (selectedOption.after) {
-            case "continue":
-                playNext();
-                break;
-            case "break":
-                this.scene.start(this.nextScene);
-                break;
-            case "response-continue":
-                this.speechbox.run(selectedOption.response, [], playNext);
-                break;
-            case "response-break":
-                this.speechbox.run(selectedOption.response, [], ()=>{
-                    this.scene.start(this.nextScene);
-                });
-                break;
-            default:
-                playNext();
-                break;
-        }
     }
 }

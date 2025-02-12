@@ -8,6 +8,7 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.height = height;
         this.text = text;
         this.fontSize = fontSize;
+        this.inverted = false;
 
         this.init();
         if (text) this.addText();
@@ -79,13 +80,15 @@ export default class Panel extends Phaser.GameObjects.Container {
             callback();
         });
     }
-    invertColors() {
+    invertColors(mode='toggle') {
+        if ((mode === 'on' && this.inverted) || (mode === 'off' && !this.inverted)) return;
         this.list.forEach(child => {
             if (child.preFX) {
-                child.preFX.addColorMatrix().negative();
+                child.preFX.addColorMatrix().negative();           
             }
         });
         this.background.setFillStyle(this.background.fillColor === 0x000000 ? 0xffffff : 0x000000);
+        this.inverted = !this.inverted; 
     }
     
 

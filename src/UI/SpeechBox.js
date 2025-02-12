@@ -38,6 +38,49 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
             this.add(this.nameBox);
         }
     }
+    playDialogSequence(dialogArray, onComplete=()=>{}) {
+        let index = 0;
+        const playNext = () => {
+            if (index < dialogArray.length) {
+                const { character, text, options } = dialogArray[index];
+                index++;
+                if (character!==this.character) {
+                    this.setName(character);
+                }
+                this.run(text, options, (selectedOption)=>{
+                    this.handleOption(selectedOption, playNext)
+                });
+            } else {
+                onComplete();
+            }
+        };
+        playNext();
+    }
+    handleOption(selectedOption, playNext) {
+        if (!selectedOption || !selectedOption.after){
+            playNext();
+            return
+        }
+        switch (selectedOption.after) {
+            case "continue":
+                playNext();
+                break;
+            case "break":
+                this.scene.scene.start(selectedOption.next);
+                break;
+            case "response-continue":
+                this.run(selectedOption.response, [], playNext);
+                break;
+            case "response-break":
+                this.run(selectedOption.response, [], ()=>{
+                    this.scene.scene.start(selectedOption.next);
+                });
+                break;
+            default:
+                playNext();
+                break;
+        }
+    }
     run(text, options=[], onComplete){
         this.clearOptions();
         this.setVisible(true);
@@ -70,14 +113,14 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     }
     showOptions(options,optCallback) {
         let yOffset = 0;
-        options.reverse().forEach(({ text, callback, after="continue",response="" }, index) => {
+        options.reverse().forEach(({ text, callback, ...rest }, index) => {
             const optionPanel = this.scene.add.panel(400, -40-yOffset, "sm", 10, 2, text);
             optionPanel.onClick(() => {
                 this.scene.sound.play("ui_click");
                 this.clearOptions(); 
                 this.setVisible(false);
                 if (callback) callback();
-                if (optCallback) optCallback({text,after,response})
+                if (optCallback) optCallback({text,...rest})
             });
             this.options.push(optionPanel);
             this.add(optionPanel);

@@ -1,36 +1,31 @@
 {
     "preview": [ 
         { 
-            "condition": "hairpreview1",
+            "condition": "hairpreview3",
             "who": "mom",
-            "text": [ "Home sweet home"],  
-            "qty": 1
+            "text": [ "Home sweet home"]
         },
         { 
             "condition": "hairpreview6",
             "who": "mom",
-            "text": ["Ah i wish i had curly hair","Ah i wish i had curly hair"],  
-            "qty": 1
+            "text": ["Ah i wish i had curly hair"] 
         },
         { 
             "condition": "toppreview3",
             "who": "mom",
-            "text": ["Do you have any idea what it's like to see your dreams die", "because of a single mistake?"],
-            "qty": 1
+            "text": ["Do you have any idea what it's like to see your dreams die", "because of a single mistake?"]
         },
         { 
             "condition": "toppreview5",
             "who": "gail",
-            "text": ["You won't mind if I borrow something from your closet, right?"],
-            "qty": 1
+            "text": ["You won't mind if I borrow something from your closet, right?"]
         }
     ],
     "click": [
         { 
             "on": "hair2",
             "who": "mom",
-            "text":["Welcome home, Abigail.", "How was your time away?"],
-            "qty": 1
+            "text":["Welcome home, Abigail.", "How was your time away?"]
         },
         { 
             "on": "hair3",
@@ -45,8 +40,7 @@
         { 
             "on": "top2",
             "who": "mom",
-            "text": ["I gave up my entire future because of you,","and look what I got in return."],  
-            "qty": 1
+            "text": ["I gave up my entire future because of you,","and look what I got in return."] 
         },
         {
             "on": "top5",
@@ -61,38 +55,32 @@
         { 
             "on": "bottom2",
             "who": "mom",
-            "text": ["I tried to love you, I really did."],  
-            "qty": 6
+            "text": ["I tried to love you, I really did."] 
         },
         { 
             "on": "bottom4",
             "who": "mom",
-            "text":[ "Yet the cruel, inevitable, and irredeemable truth", "is that a mistake is exactly what you are."],
-            "qty": 2
+            "text":[ "Yet the cruel, inevitable, and irredeemable truth", "is that a mistake is exactly what you are."]
         },
         { 
             "on": "hair3",
             "who": "gail",
-            "text":[ "I'm so afraid of looking at myself in the mirror someday","and seeing your face staring back at me."],
-            "qty": 1
+            "text":[ "I'm so afraid of looking at myself in the mirror someday","and seeing your face staring back at me."]
         },
         { 
             "on": "top4",
             "who": "gail",
-            "text":[ "My old school uniform. It doesn't fit anymore."],
-            "qty": 1
+            "text":[ "My old school uniform. It doesn't fit anymore."]
         },
         { 
             "on": "top5",
             "who": "gail",
-            "text":[ "I would gladly give you back my life", "so you could have yours", "But we don't always get what we want, do we?"],
-            "qty": 1
+            "text":[ "I would gladly give you back my life", "so you could have yours", "But we don't always get what we want, do we?"]
         },
         { 
             "on": "bottom2",
             "who": "gail",
-            "text":[ "Please stop yelling","Please stop yelling"],
-            "qty": 8
+            "text":[ "Please stop yelling"]
         }
     ],
     "end1": [
