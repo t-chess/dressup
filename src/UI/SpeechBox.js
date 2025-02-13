@@ -42,10 +42,13 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         let index = 0;
         const playNext = () => {
             if (index < dialogArray.length) {
-                const { character, text, options } = dialogArray[index];
+                const { character, text, options,callback } = dialogArray[index];
                 index++;
                 if (character!==this.character) {
                     this.setName(character);
+                }
+                if (callback) {
+                    callback();
                 }
                 this.run(text, options, (selectedOption)=>{
                     this.handleOption(selectedOption, playNext)
@@ -69,10 +72,10 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
                 this.scene.scene.start(selectedOption.next);
                 break;
             case "response-continue":
-                this.run(selectedOption.response, [], playNext);
+                this.playDialogSequence(selectedOption.response, playNext);
                 break;
             case "response-break":
-                this.run(selectedOption.response, [], ()=>{
+                this.playDialogSequence(selectedOption.response, ()=>{
                     this.scene.scene.start(selectedOption.next);
                 });
                 break;
@@ -114,7 +117,8 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     showOptions(options,optCallback) {
         let yOffset = 0;
         options.reverse().forEach(({ text, callback, ...rest }, index) => {
-            const optionPanel = this.scene.add.panel(400, -40-yOffset, "sm", 10, 2, text);
+            const w = Math.max(3, Math.ceil(text.length/2)+2);
+            const optionPanel = this.scene.add.panel(600-w*20, -40-yOffset, "sm", w, 2, text);
             optionPanel.onClick(() => {
                 this.scene.sound.play("ui_click");
                 this.clearOptions(); 

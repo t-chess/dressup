@@ -48,7 +48,6 @@ export default class CutScene extends Phaser.Scene {
         this.scenesArray.forEach((scene,i) => {
             this[scene.bgKey].setVisible(i===this.nextIndex?true:false)
         })
-        // this[currentScene.bgKey].setVisible(true);
 
         this.time.delayedCall(1000, ()=>{
             if (!currentScene.dialog||!currentScene.dialog.length) {

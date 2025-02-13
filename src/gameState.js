@@ -3,7 +3,7 @@ const gameState = {
   currentSection: "",
   bg: 1,
   bgtotal: 4,
-  cutScenes: 3,
+  cutScenes: 5,
   mom: {
     hair: 1,
     hairPreview: 1,

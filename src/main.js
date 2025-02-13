@@ -3,7 +3,6 @@ import Loading from "./scenes/Loading";
 import Main from "./scenes/Main";
 import Ending from "./scenes/Ending";
 import BootScene from "./UI/BootScene";
-import CutScene from "./UI/CutScene";
 import { Intro } from "./scenes/CutScenes";
 
 const game = new Phaser.Game({
