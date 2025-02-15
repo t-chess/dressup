@@ -1,5 +1,3 @@
-import gameState from "../gameState";
-
 export default class Loading extends Phaser.Scene {
   constructor() {
     super("Loading");
@@ -12,12 +10,12 @@ export default class Loading extends Phaser.Scene {
     this.add.panel(40,200,'md',14,3, "After spending a few years away from her hometown, 19-year-old Abigaïl is finally visiting to reunite with her mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.")
 
     // bgs & cutscenes
-    Array.from({ length: gameState.bgtotal }, (_, i) => i + 1).forEach(
+    Array.from({ length: 4 }, (_, i) => i + 1).forEach(
       (i) => {
         this.load.image("bg" + i, "bg" + i + ".png");
       }
     );
-    Array.from({ length: gameState.cutScenes }, (_, i) => i + 1).forEach(
+    Array.from({ length: 5 }, (_, i) => i + 1).forEach(
       (i) => {
         i>0&&this.load.image("cut" + i, "scenes/cut" + i + ".png");
       }
@@ -27,6 +25,7 @@ export default class Loading extends Phaser.Scene {
     this.load.audio("sea", "scenes/sea.mp3");
     this.load.audio("aggrolighter", "scenes/aggrolighter.mp3");
     this.load.audio("zippo", "scenes/zippo.mp3");
+    this.load.audio("music", "music.mp3");
 
     // interface
     this.load.image("btndone", "interface/btndone.png");
@@ -35,31 +34,15 @@ export default class Loading extends Phaser.Scene {
     this.load.image("mother", "mom.png");
     this.load.image("abigail", "gail.png");
 
-    this.loadSet("hair", "mom");
-    this.loadSet("top", "mom");
-    this.loadSet("bottom", "mom");
-
-    this.loadSet("hair", "gail");
-    this.loadSet("top", "gail");
-    this.loadSet("bottom", "gail");
-
+    this.load.spritesheet([
+      {key: 'momhair', frameConfig: {frameWidth: 191, frameHeight:176}},
+      {key: 'momtop', frameConfig: {frameWidth: 216, frameHeight:361}}
+    ]);
+    
     this.load.image("hand", "hand.png");
-    this.load.image("eyes", "mom/eyes.png");
+    this.load.image("eyes", "eyes.png");
 
-    this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Intro"));
+    this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Main"));
     this.add.soundbutton();
-  }
-  loadSet(name, who) {
-    let total = gameState[who][name + "total"];
-    for (var i = 1; i <= total; i++) {
-      this.load.image(
-        who + name + i,
-        who + "/" + name + i + ".png"
-      );
-      this.load.image(
-        who + name + "preview" + i,
-        who + "/" + name + "preview" + i + ".png"
-      );
-    }
   }
 }

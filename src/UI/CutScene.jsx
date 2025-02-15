@@ -46,10 +46,10 @@ export default class CutScene extends Phaser.Scene {
         this.nextArrow.setVisible(false);
         const currentScene = this.scenesArray[this.nextIndex];
         this.scenesArray.forEach((scene,i) => {
-            this[scene.bgKey].setVisible(i===this.nextIndex?true:false)
+            this[scene.bgKey].setVisible(i===this.nextIndex)
         })
 
-        this.time.delayedCall(1000, ()=>{
+        this.time.delayedCall(currentScene.delay||1000, ()=>{
             if (!currentScene.dialog||!currentScene.dialog.length) {
                 this.nextArrow.setVisible(true);
                 this.nextArrow.once("pointerdown", () => {

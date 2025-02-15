@@ -21,7 +21,7 @@ export class Intro extends CutScene {
                     {
                         text: "Try flicking it again?",
                         options: [
-                            { text: "Flick aggressively", callback: () =>this.aggrolighter.play(), after: "response-continue", response: [{ text: "Still nothing. Stubborn piece of shit." }]},
+                            { text: "Flick aggressively", callback: () => this.time.delayedCall(500, () => this.aggrolighter.play()), after: "response-continue", response: [{ text: "Still nothing. Stubborn piece of shit." }]},
                             { text: "Flick dramatically", after: "response-continue", response: [{ text: "Still nothing. What a tragic failure." }] }
                         ]
                     }
@@ -44,9 +44,14 @@ export class Intro extends CutScene {
                 bgKey: "cut4", 
                 dialog: [
                     {
+                        character: "Gail",
+                        text: "...",
+                        options: [{text: "Thanks."},{text: "..."}],
+                        callback: ()=>this.zippo.play(), after: "continue",
+                    },
+                    {
                         character: "Smoker",
                         text: "...",
-                        callback: ()=>this.zippo.play(), after: "response-continue",
                     },
                     {
                         character: "Smoker",
@@ -78,12 +83,28 @@ export class Intro extends CutScene {
                             {text: "Yeah, she'd love that."},
                             {text: "Mhm. She'll be speechless."},
                         ]
-                    }
+                    },
+                    {text: "..."}
+                ]
+            },
+            {
+                delay: 2000,
+                dialog: [
+                    {text:"Fifteen minutes from the dock, and here she is."},
+                    {character: "Gail", text: "Alright, I'm here! God, that was a long trip."},
+                    {character: "Gail", text: "Just need a minute to rest."},
+                    {text: "No resting, Gail. We need to get ready!", options: [ 
+                        {text: "Alright, let's begin."}, 
+                        {text: 'Ugh. Fine.'} 
+                    ]}
                 ]
             }
         ])
         this.onEnd(()=>{
-            this.scene.start("Main");
+            this.cameras.main.fadeOut(500, 0, 0, 0);
+            this.time.delayedCall(500, () => {
+                this.scene.start("Main");
+            });
         })
         this.events.on("shutdown", () => this.sea.stop() );
     }

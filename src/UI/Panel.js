@@ -79,6 +79,7 @@ export default class Panel extends Phaser.GameObjects.Container {
             this.scene.input.setDefaultCursor("default"); 
             callback();
         });
+        return this
     }
     invertColors(mode='toggle') {
         if ((mode === 'on' && this.inverted) || (mode === 'off' && !this.inverted)) return;
@@ -89,6 +90,7 @@ export default class Panel extends Phaser.GameObjects.Container {
         });
         this.background.setFillStyle(this.background.fillColor === 0x000000 ? 0xffffff : 0x000000);
         this.inverted = !this.inverted; 
+        return this
     }
     
 

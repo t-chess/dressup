@@ -1,12 +1,28 @@
-import gameState from "../gameState";
 import phrases from "../phrases.json";
 
 export default class Main extends Phaser.Scene {
   constructor() {
     super("Main");
+    this.gameState = {
+      currentChar: "mom",
+      currentSection: "",
+      bg: 0,
+      bgtotal: 4,
+      mom: {
+        hair:0, hairpreview:0, hairtotal: 12,
+        top:0, toppreview:0, toptotal: 10,
+        bottom:0, bottompreview:0, bottomtotal: 6,
+      },
+      gail: {
+        hair:0, hairpreview:0, hairtotal: 4,
+        top:0, toppreview:0, toptotal: 6,
+        bottom:0, bottompreview:0, bottomtotal: 2,
+      }
+
+    }
   }
   create() {
-    Array.from({ length: gameState.bgtotal }, (_, i) => i + 1).forEach((i) => {
+    Array.from({ length: 4 }, (_, i) => i + 1).forEach((i) => {
       this["bg" + i] = this.add
         .sprite(640, 480, "bg" + i)
         .setVisible(i > 1 ? false : true)
@@ -14,16 +30,13 @@ export default class Main extends Phaser.Scene {
     });
 
     // left side UI
-    this.hairbtn = this.add.panel(20, 80, "md", 3, 2, "volossya", 20);
-    this.hairbtn.onClick(() => {
+    this.hairbtn = this.add.panel(20, 80, "md", 3, 2, "Hair", 20).onClick(() => {
       this.onNavClicked("hair");
     });
-    this.topsbtn = this.add.panel(20, 160, "md", 3, 2, "Kofty", 20);
-    this.topsbtn.onClick(() => {
+    this.topbtn = this.add.panel(20, 160, "md", 3, 2, "Tops", 20).onClick(() => {
       this.onNavClicked("top");
     });
-    this.bottomsbtn = this.add.panel(20, 240, "md", 3, 2, "SHTANY", 20);
-    this.bottomsbtn.onClick(() => {
+    this.bottombtn = this.add.panel(20, 240, "md", 3, 2, "Bottoms", 18).onClick(() => {
       this.onNavClicked("bottom");
     });
     this.add.panel(20, 320, "md", 3, 2, "testik", 20);
@@ -37,6 +50,37 @@ export default class Main extends Phaser.Scene {
     this.add.panel(500, 80, "md", 3, 4).invertColors();
     this.add.panel(500, 240, "md", 3, 4).invertColors();
 
+    // MOM
+    this.add.sprite(640, 480, "mother").setPosition(250, 248);
+    this.eyes = this.add
+      .sprite(640, 480, "eyes")
+      .setPosition(261, 73)
+      .setVisible(false);
+    
+    // ("mom", "bottom", 248, 345);
+    this.momtop = this.add.image(240, 284,'momtop',0);
+    this.momhair = this.add.image(239, 99,'momhair',0);
+
+    // GAIL
+    this.abigail = this.add.sprite(640, 480, "abigail").setPosition(383, 258);
+    // ("gail", "bottom", 371, 309);
+    // ("gail", "top", 389, 261);
+    // ("gail", "hair", 346, 112);
+
+    this.previews = {
+      momhairt: this.add.image(555, 150,'momhair',0).setScale(0.7),
+      momhairb: this.add.image(555, 310,'momhair',1).setScale(0.7),
+      momtopt: this.add.image(555, 200,'momtop',0).setCrop(0,0,216,200).setScale(0.6),
+      momtopb: this.add.image(555, 360,'momtop',1).setCrop(0,0,216,200).setScale(0.6),
+    };
+    Object.keys(this.previews).forEach((k) => {
+      this.previews[k].setInteractive({ cursor: "pointer" });
+      this.previews[k].setVisible(false);
+      this.previews[k].on('pointerdown', ()=>this.onPreviewClick(k.endsWith('b')?1:0))
+    });
+
+
+    // arrows sound and bg
     this.add
       .sprite(530, 420, "ui_atlas", "arrow-solo")
       .setFlipX(true)
@@ -53,83 +97,38 @@ export default class Main extends Phaser.Scene {
       .sprite(550, 40, "ui_atlas","circle")
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        let next = gameState.bg + 1 > gameState.bgtotal ? 1 : gameState.bg + 1;
-        this["bg" + gameState.bg].visible = false;
-        this["bg" + next].visible = true;
-        gameState.bg = next;
+        this.sound.play("ui_click");
+        let next = this.gameState.bg + 1 > this.gameState.bgtotal-1 ? 0 : this.gameState.bg + 1;
+        this["bg" + (this.gameState.bg+1)].setVisible(false);
+        this["bg" + (next+1)].setVisible(true);
+        this.gameState.bg = next;
       });
 
 
-    // MOM
-    this.mother = this.add.sprite(640, 480, "mother").setPosition(250, 248);
-    this.eyes = this.add
-      .sprite(640, 480, "eyes")
-      .setPosition(261, 73)
-      .setVisible(false);
-    this.addSet("mom", "bottom", 248, 345);
-    this.addSet("mom", "top", 238, 285);
-    this.addSet("mom", "hair", 238, 99);
+    this.sound.pauseOnBlur = false;
+    this.music = this.sound.add("music");
+    this.music.loop = true;
+    this.music.play();
 
-    // GAIL
-    this.abigail = this.add.sprite(640, 480, "abigail").setPosition(383, 258);
-    this.addSet("gail", "bottom", 371, 309);
-    this.addSet("gail", "top", 389, 261);
-    this.addSet("gail", "hair", 346, 112);
-
-    this.btndone = this.add
-      .sprite(640, 480, "btndone")
-      .setPosition(320, 410)
-      .setVisible(false)
-      .setInteractive({ cursor: "pointer" });
-
-    this.btndone.on("pointerdown", () => {
+    this.btndone = this.add.panel(280, 410, "sm", 4, 2, 'done').setVisible(false).onClick(() => {
+      this.sound.play("ui_click");
       this.speechbox.setName("Gail");
-      if (gameState.gailtop1._visible) {
+      if (!this.gameState.gail.top) {
         this.speechbox.run("This sweater doesn't feel appropriate for the occasion");
         return;
       }
-      if (gameState.gailtop4._visible) {
+      if (this.gameState.gail.top===3) {
         this.speechbox.run("Who the hell wears an old school uniform to a funeral?");
         return;
       }
-      if (gameState.momtop5._visible && gameState.mombottom3._visible) {
+      if (this.gameState.mom===4 && this.gameState.mombottom === 2) {
         this.speechbox.run("I don't think mom would have understood this joke.");
         return;
       }
-      Object.keys(gameState)
-        .filter((k) => k.includes("preview"))
-        .forEach((k) => {
-          gameState[k].destroy();
-          delete gameState[k];
-        });
-      gameState.chosenItems = Object.keys(gameState)
-        .filter((k) => k.includes("gail") || k.includes("mom"))
-        .filter((k) => gameState[k]._visible === true);
-      [
-        // this.rightPanel1,
-        // this.rightPanel2,
-        // this.hairbtn,
-        // this.topsbtn,
-        // this.bottomsbtn,
-        // this.arrowNext,
-        // this.arrowPrev,
-        // this.arrowgail,
-        // this.arrowmom,
-        // this.btndone,
-        // this.musicon,
-        // this.musicoff,
-        // this.bgbtn,
-      ].forEach((el) => el.destroy());
       setTimeout(() => {
         this.speechbox.run("It seems we're ready.", undefined, ()=>this.speechbox.run("Just one last thing to do."));
         setTimeout(() => {
           this.abigail.destroy();
-          Object.keys(gameState)
-            .filter((k) => k.includes("gail") && gameState[k].type === "Sprite")
-            .forEach((k) => {
-              gameState[k].destroy();
-              delete gameState[k];
-            });
           setTimeout(() => {
             this.initHand();
           }, 500);
@@ -137,109 +136,96 @@ export default class Main extends Phaser.Scene {
       }, 2000);
     });
 
-    
-    this.speechbox = this.add.speechbox();
 
+    this.speechbox = this.add.speechbox();
     this.onNavClicked("hair");
-  }
-  addSet(who, what, x, y) {
-    let name = who + what;
-    let total = gameState[who][what + "total"];
-    for (let i = 1; i <= total; i++) {
-      gameState[name + i] = this.add.sprite(x, y, name + i);
-      if (i !== 1) {
-        gameState[name + i].visible = false;
-      }
-      gameState[name + "preview" + i] = this.add
-        .sprite(560, i % 2 === 0 ? 310 : 150, name + "preview" + i)
-        .setInteractive({ cursor: "pointer" });
-      if (i > 2 || what !== "hair" || who !== "mom") {
-        gameState[name + "preview" + i].visible = false;
-      }
-      gameState[name + "preview" + i].on("pointerdown", () => {
-        for (let r = 1; r <= total; r++) {
-          gameState[who + what + r].visible = r === i ? true : false;
-          gameState[who + what + r].chosen = r === i ? true : false;
-        }
-        this.checkChange("click");
-      });
-    }
+    this.cameras.main.fadeIn(500, 0, 0, 0);
   }
   changePreview = (direction) => {
-    const char = gameState.currentChar;
-    const section = gameState.currentSection;
-    const current = gameState[char][section];
+    this.sound.play("ui_click");
+    const char = this.gameState.currentChar;
+    const section = this.gameState.currentSection;
+    const current = this.gameState[char][section+"preview"];
 
-    const total = gameState[char][section + "total"];
+    const total = this.gameState[char][section + "total"];
     const newIndex = direction === "next"
-        ? (current + 2 < total ? current + 2 : 1)
-        : (current === 1 ? total - 1 : current - 2);
+        ? (current + 2 < total ? current + 2 : 0)
+        : (current === 0 ? total - 2 : current - 2);
 
-    gameState[char + section + "preview" + current].visible = false;
-    gameState[char + section + "preview" + (current + 1)].visible = false;
-    gameState[char + section + "preview" + newIndex].visible = true;
-    gameState[char + section + "preview" + (newIndex + 1)].visible = true;
+    this.gameState[char][section+"preview"] = newIndex;
+    this.previews[char+section+'t'].setFrame(newIndex);
+    this.previews[char+section+'b'].setFrame(newIndex+1);
 
-    gameState[char][section] = newIndex;
-    if (!gameState.btnChangeChar && section === "bottom" && current === 1) {
-        gameState.btnChangeChar = true;
-        this.arrowgail.visible = true;
+    if (!this.gameState.btnChangeChar && section === "bottom" && current === 0) {
+        this.arrowgail.setVisible(true);
     }
     this.checkChange("preview");
   }
   checkChange(type) {
+    return
     phrases[type].forEach((ph) => {
       let show;
       if (type === "preview") {
-        if (gameState[ph.who + ph.condition]._visible) {
+        if (this.gameState[ph.on[0]][ph.on[1]+'preview']===ph.on[2]) {
           show = true;
         }
       } else {
         if (
-          ph.who === gameState.currentChar &&
-          ph.on.replace(/[0-9]/g, "") === gameState.currentSection &&
-          gameState[ph.who + ph.on]._visible
+          ph.on[0] === this.gameState.currentChar &&
+          ph.on[1] === this.gameState.currentSection &&
+          this.gameState[ph.on[0]][ph.on[1]] === ph.on[2]
         ) {
           show = true;
         }
       }
       if (show) {
-        const arr = ph.text.map(str=>({character:ph.who,text:str}));
+        function cap(val) {
+          return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+        }      
+        const arr = ph.text.map(str=>({character:cap(ph.on[0]),text:str}));
         this.speechbox.playDialogSequence(arr);
       }
     });
   }
   onNavClicked(type) {
-    const buttons = {
-      hair: this.hairbtn,
-      top: this.topsbtn,
-      bottom: this.bottomsbtn,
-    };
-    if (gameState.currentSection !== type) {
-      let who = gameState.currentChar;
-      let keys = Object.keys(gameState).filter((k) =>
-        k.includes(gameState.currentChar + gameState.currentSection + "preview")
-      );
-      keys.forEach((k) => (gameState[k].visible = false));
-      gameState.currentSection = type;
-      let current = gameState[who][type];
-      gameState[who + type + "preview" + current].visible = true;
-      gameState[who + type + "preview" + (current + 1)].visible = true;
+    if (this.gameState.currentSection !== type) {
+      let who = this.gameState.currentChar;
+      if (this.gameState.currentSection) {
+        this.sound.play("ui_click");
+        this.previews[who+this.gameState.currentSection+'t'].setVisible(false);
+        this.previews[who+this.gameState.currentSection+'b'].setVisible(false);
+      }
+      this.previews[who+type+'t'].setVisible(true);
+      this.previews[who+type+'b'].setVisible(true);
+
+      let current = this.gameState[who][type];
+      if (current % 2 !== 0) { current -= 1 };
+      this.previews[who+type+'t'].setFrame(current);
+      this.previews[who+type+'b'].setFrame(current+1);
+      this.gameState.currentSection = type;
     }
-    Object.keys(buttons).forEach((section) => {
-      buttons[section].invertColors(gameState.currentSection===section?'on':'off');
+    ["hair","top","bottom"].forEach(section => {
+      this[section+'btn'].invertColors(this.gameState.currentSection===section?'on':'off');
     });
     if (
-      !gameState.btnDone &&
-      gameState.currentChar === "gail" &&
-      gameState.currentSection === "bottom"
+      this.gameState.currentChar === "gail" &&
+      this.gameState.currentSection === "bottom"
     ) {
-      gameState.btnDone = true;
-      this.btndone.visible = true;
+      this.btndone.setVisible(true);
     }
     this.checkChange("preview");
   }
+  onPreviewClick(index){
+    this.sound.play("ui_click");
+    const char = this.gameState.currentChar;
+    const section = this.gameState.currentSection;
+    const selectedIndex = this.gameState[char][section + "preview"]+index;
+    this[char + section].setFrame(selectedIndex);
+    this.gameState[char][section] = selectedIndex;
+    this.checkChange("click");
+  }
   changeChar() {
+    this.sound.play("ui_click");
     let keys = Object.keys(gameState).filter((k) =>
       k.includes(gameState.currentChar + gameState.currentSection + "preview")
     );

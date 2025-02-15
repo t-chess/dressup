@@ -10,6 +10,7 @@ const game = new Phaser.Game({
   width: 640,
   height: 480,
   parent: "container",
-  backgroundColor: "0xFFFFFF",
+  backgroundColor: "0x000",
+  dom: {createContainer: true},
   scene: [new BootScene("assets/scenes/cut1.png"), Loading, Intro, Main, Ending],
 });

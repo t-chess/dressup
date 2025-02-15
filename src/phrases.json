@@ -1,85 +1,65 @@
 {
     "preview": [ 
         { 
-            "condition": "hairpreview3",
-            "who": "mom",
-            "text": [ "Home sweet home"]
-        },
-        { 
-            "condition": "hairpreview6",
-            "who": "mom",
+            "on":["mom", "hair", 6],
             "text": ["Ah i wish i had curly hair"] 
         },
         { 
-            "condition": "toppreview3",
-            "who": "mom",
+            "on":["mom", "top", 2],
             "text": ["Do you have any idea what it's like to see your dreams die", "because of a single mistake?"]
         },
         { 
-            "condition": "toppreview5",
-            "who": "gail",
+            "on":["gail", "top", 4],
             "text": ["You won't mind if I borrow something from your closet, right?"]
         }
     ],
     "click": [
         { 
-            "on": "hair2",
-            "who": "mom",
+            "on":["mom", "hair",2],
             "text":["Welcome home, Abigail.", "How was your time away?"]
         },
         { 
-            "on": "hair3",
-            "who": "mom",
+            "on":["mom", "hair",3],
             "text":[ "Isn't it a wonderful, bittersweet feeling","when people say we look so much alike?"]  
         },
         { 
-            "on": "hair9",
-            "who": "mom",
+            "on":["mom", "hair",9],
             "text":[ "This is where I feel closest to my old dreams","singing here in church.", "It's not the stage I imagined but it's a stage nonetheless."]  
         },
         { 
-            "on": "top2",
-            "who": "mom",
+            "on":["mom", "top",2],
             "text": ["I gave up my entire future because of you,","and look what I got in return."] 
         },
         {
-            "on": "top5",
-            "who": "mom",
+            "on":["mom", "top",5],
             "text":["Meanwhile, think about your behavior in the basement."]
         },
         {
-            "on": "top6",
-            "who": "mom",
+            "on":["mom", "top",6],
             "text":["O Lord hear the cry of a girl", "for years of silence and fear have birthed within her a fury", "vast and ancient like the storms of old.", "Grant her solace for her anger is now a tempest beyond words,","a grief that knows no comfort.","May she find peace in Your embrace and let her soul be healed.", "Amen"]
         },
         { 
-            "on": "bottom2",
-            "who": "mom",
+            "on":["mom", "bottom",2],
             "text": ["I tried to love you, I really did."] 
         },
         { 
-            "on": "bottom4",
-            "who": "mom",
+            "on":["mom", "bottom",4],
             "text":[ "Yet the cruel, inevitable, and irredeemable truth", "is that a mistake is exactly what you are."]
         },
         { 
-            "on": "hair3",
-            "who": "gail",
+            "on": ["gail","hair",3],
             "text":[ "I'm so afraid of looking at myself in the mirror someday","and seeing your face staring back at me."]
         },
         { 
-            "on": "top4",
-            "who": "gail",
+            "on": ["gail","top",4],
             "text":[ "My old school uniform. It doesn't fit anymore."]
         },
         { 
-            "on": "top5",
-            "who": "gail",
+            "on": ["gail","top",5],
             "text":[ "I would gladly give you back my life", "so you could have yours", "But we don't always get what we want, do we?"]
         },
         { 
-            "on": "bottom2",
-            "who": "gail",
+            "on": ["gail","bottom",2],
             "text":[ "Please stop yelling"]
         }
     ],
