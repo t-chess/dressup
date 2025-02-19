@@ -1,25 +1,30 @@
 export default class SpeechBox extends Phaser.GameObjects.Container {
     constructor(scene, typingSpeed=15) {
-        super(scene, 20, 420);
+        super(scene, 20, 460);
         this.scene = scene;
         this.typingSpeed = typingSpeed;
         this.options = [];
+
+        this.currentLines = 2;
+        this.maxCharsPerLine = 63;
 
         this.init();
         this.setVisible(false);
         scene.add.existing(this);
     }
     init() {
-        this.box = this.scene.add.image(0, 0, "ui_atlas", "speechline").setOrigin(0);
+        this.box = this.scene.add.panel(0, -this.currentLines * 20, "sm", 30,this.currentLines).setStatic(true);
         this.add(this.box);
         
-        this.textline = this.scene.add.text(20, 20, "", {
+        this.textline = this.scene.add.text(20, -this.currentLines * 20 + 12, "", {
             font: "16px monospace",
-            color: "#ffffff"
-        }).setOrigin(0,0.5);
+            color: "#ffffff",
+            wordWrap: { width: 580, useAdvancedWrap: true },
+            lineSpacing: 2,
+        }).setOrigin(0,0);
         this.add(this.textline);
 
-        this.nextBtn = this.scene.add.text(580, 20, "▶", {
+        this.nextBtn = this.scene.add.text(580, -18, "▶", {
             font: "16px monospace",
             color: "#ffffff",
         })
@@ -34,8 +39,24 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         }
         if (name) {
             const w = Math.max(4, this.character.length) * 10;
-            this.nameBox = this.scene.add.panel(0, -40, "sm", Math.ceil(w / 20) + 2, 2, this.character);
+            this.nameBox = this.scene.add.panel(0, -this.currentLines * 20-40, "sm", Math.ceil(w / 20) + 2, 2).setText(this.character);
             this.add(this.nameBox);
+        }
+    }
+    updateBoxSize(text) {
+        const lines = Math.ceil(text.length / this.maxCharsPerLine) + 1;
+        if (lines !== this.currentLines) {
+            this.currentLines = lines;
+            this.box.destroy();
+            this.box = this.scene.add.panel(0, -this.currentLines * 20, "sm", 30, this.currentLines).setStatic(true);
+            this.add(this.box);
+
+            this.textline.setY(-this.currentLines * 20  + 12);
+            if (this.nameBox) {
+                this.nameBox.setY(-this.currentLines * 20-40);
+            }
+            this.bringToTop(this.textline);
+            this.bringToTop(this.nextBtn);
         }
     }
     playDialogSequence(dialogArray, onComplete=()=>{}) {
@@ -87,9 +108,10 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     run(text, options=[], onComplete){
         this.clearOptions();
         this.setVisible(true);
-        this.box.disableInteractive();
+        this.box.onClick(null);
         this.textline.setText(""); 
         this.nextBtn.setVisible(false);
+        this.updateBoxSize(text);
         let index = 0;
         let currentText = "";
         const typeWriter = () => {
@@ -103,22 +125,21 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
                     this.showOptions(options,onComplete);
                 } else {
                     this.nextBtn.setVisible(true);
-                    this.box.setInteractive({ cursor: "pointer" });
-                    this.box.once("pointerdown", () => {
+                    this.box.onClick(() => {
                         this.scene.sound.play("ui_click");
                         this.setVisible(false);
                         if (onComplete) onComplete();
-                    });
+                    }, true);
                 }
             }
         };
         typeWriter();
     }
     showOptions(options,optCallback) {
-        let yOffset = 0;
+        let yOffset = this.currentLines * 20;
         options.reverse().forEach(({ text, callback, ...rest }, index) => {
             const w = Math.max(3, Math.ceil(text.length/2)+2);
-            const optionPanel = this.scene.add.panel(600-w*20, -40-yOffset, "sm", w, 2, text);
+            const optionPanel = this.scene.add.panel(600-w*20, -40-yOffset, "sm", w, 2).setText(text);
             optionPanel.onClick(() => {
                 this.scene.sound.play("ui_click");
                 this.clearOptions(); 

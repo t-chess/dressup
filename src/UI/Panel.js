@@ -1,17 +1,16 @@
 export default class Panel extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, type='md', width, height, text, fontSize=16) {
+    constructor(scene, x, y, type='md', width, height, fontSize=16) {
         super(scene, x, y);
         this.scene = scene;
         this.type = type;
         this.tileSize = type==="sm"?20:40;
         this.width = width;
         this.height = height;
-        this.text = text;
         this.fontSize = fontSize;
         this.inverted = false;
+        this.static = false;
 
         this.init();
-        if (text) this.addText();
         scene.add.existing(this);
     }
     init() {
@@ -46,21 +45,27 @@ export default class Panel extends Phaser.GameObjects.Container {
         addTile((this.width - 1) * this.tileSize, (this.height - 1) * this.tileSize, `${this.type}-rb`);
     }
 
-    addText() {
-        this.add(this.scene.add.text(
-            (this.width * this.tileSize) / 2,
-            (this.height * this.tileSize) / 2,
-            this.text,
-            {
-                fontSize: `${this.fontSize}px`,
-                color: "#ffffff",
-                align: "center",
-                lineSpacing: 2,
-                wordWrap: { width: (this.width-1) * this.tileSize, useAdvancedWrap: true },
-            }
-        ).setOrigin(0.5)); 
+    setText(text) {
+        if (!this.textObject) {
+            this.textObject = this.scene.add.text(
+                (this.width * this.tileSize) / 2,
+                (this.height * this.tileSize) / 2,
+                text,
+                {
+                    fontSize: `${this.fontSize}px`,
+                    color: "#ffffff",
+                    align:'center',
+                    lineSpacing: 2,
+                    wordWrap: { width: (this.width - 1) * this.tileSize, useAdvancedWrap: true },
+                }
+            ).setOrigin(0.5);
+            this.add(this.textObject);
+        } else {
+            this.textObject.setText(text);
+        }
+        return this
     }
-    onClick(callback) {
+    onClick(callback, once) {
         if (!callback) {
             this.disableInteractive();
             return
@@ -68,17 +73,18 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.width * this.tileSize, this.height * this.tileSize), Phaser.Geom.Rectangle.Contains);
         this.on("pointerover", () => {
             this.scene.input.setDefaultCursor("pointer");
-            this.setPosition(this.x, this.y - 2);
+            if (!this.static) this.setPosition(this.x, this.y - 2);
         });
         this.on("pointerout", () => {
             this.scene.input.setDefaultCursor("default"); 
-            this.setPosition(this.x, this.y + 2);
+            if (!this.static) this.setPosition(this.x, this.y + 2);
         });
-        this.on("pointerdown", () => {
+        const f = () => {
             this.scene.sound.play("ui_click");
             this.scene.input.setDefaultCursor("default"); 
             callback();
-        });
+        }
+        once ? this.once("pointerdown", f) : this.on("pointerdown", f);
         return this
     }
     invertColors(mode='toggle') {
@@ -91,6 +97,10 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.background.setFillStyle(this.background.fillColor === 0x000000 ? 0xffffff : 0x000000);
         this.inverted = !this.inverted; 
         return this
+    }
+    setStatic(v) {
+        this.static = v;
+        return this;
     }
     
 

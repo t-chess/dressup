@@ -17,7 +17,7 @@ export default class ProgressBar extends Phaser.GameObjects.Container {
         this.progressBar = this.scene.add.graphics();
         this.add(this.progressBar);
 
-        this.playButton = this.scene.add.panel((this.width-5)*10, 0, "sm", 5, 2, "Play", undefined);
+        this.playButton = this.scene.add.panel((this.width-5)*10, 0, "sm", 5, 2).setText("Play");
         this.playButton.onClick(this.onComplete)
         this.playButton.setVisible(false);
         this.add(this.playButton);
