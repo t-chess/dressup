@@ -35,8 +35,8 @@ export class Intro extends CutScene {
                     {
                         text: "See if someone on the ferry has a lighter?",
                         options: [
-                            { text: "Ask a nearby smoker", after: "response-continue", response: [{text:"Gail approaches a smoker.\nThe lighter is in her hand before she can ask."}] },
-                            { text: "Avoid unnecessary interaction", after: "response-continue", response: [{text:"Gail stays quiet and avoids eye contact.\nA smoker nearby sighs and passes her his lighter."}] }
+                            { text: "Ask a nearby smoker", after: "response-continue", response: [{text:"Gail approaches a smoker."},{text:"The lighter is in her hand before she can ask."}] },
+                            { text: "Avoid unnecessary interaction", after: "response-continue", response: [{text:"Gail stays quiet and avoids eye contact."},{text:"A smoker nearby sighs and passes her his lighter."}] }
                         ]
                     },
                 ]
@@ -140,7 +140,8 @@ export class Ending extends CutScene {
         this.onEnd(()=>{
             this.cameras.main.fadeOut(500, 0, 0, 0);
             this.time.delayedCall(500, () => {
-                this.scene.start("Main");
+                this.music.stop();
+                this.scene.start("Loading");
             });
         })
     }
