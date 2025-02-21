@@ -1,4 +1,5 @@
 import CutScene from "../UI/CutScene";
+import phrases from "../phrases.json";
 
 export class Intro extends CutScene {
     constructor() {
@@ -57,8 +58,8 @@ export class Intro extends CutScene {
                         character: "Smoker",
                         text: "Huh... You look really familiar. Do I know you?",
                         options: [
-                            { text: "...", after: "response-continue", response: [{character: "Smoker",text:"Ah yes, XYZ's kiddie, right?"}] },
-                            { text: "I don't think so.", after: "response-continue", response: [{character: "Smoker",text:"Nah, I recognize that face. XYZ's kiddie, right?"}] },
+                            { text: "...", after: "response-continue", response: [{character: "Smoker",text:"Ah yes, AAA's kiddie, right?"}] },
+                            { text: "I don't think so.", after: "response-continue", response: [{character: "Smoker",text:"Nah, I recognize that face. AAA's kiddie, right?"}] },
                             { text: "Maybe. I grew up here.", after: "response-continue", response: [{character: "Smoker",text:"Thought so. You look just like her."}] }
                         ]
                     },
@@ -107,5 +108,40 @@ export class Intro extends CutScene {
             });
         })
         this.events.on("shutdown", () => this.sea.stop() );
+    }
+}
+
+export class Ending extends CutScene {
+    constructor() {
+        super("Ending");
+    }
+    init({ending,seek}) {
+        const dialog = phrases["end"+ending].map(string=>({text:string}));
+        this.setScenes([
+            {
+                dialog:[{text:`While Abigaïl was sorting through old things and getting ready for the ceremony, she found ${this.ending === 1 ? "a" : "an old"} photograph with a handwritten note on the back.`}]
+            },
+            {
+                bgKey: "end"+ending,
+                dialog
+            },
+            {
+                delay:2000,
+                dialog: [{character:'Morry',text:"Thanks for playing <3"},{text:'credits credits credits'}]
+            }
+        ])
+        this.music = this.sound.add("music");
+        this.music.loop = true;
+        this.music.play({seek});
+    }
+    create() {
+        this.add.soundbutton();
+        this.cameras.main.fadeIn(500, 0, 0, 0);
+        this.onEnd(()=>{
+            this.cameras.main.fadeOut(500, 0, 0, 0);
+            this.time.delayedCall(500, () => {
+                this.scene.start("Main");
+            });
+        })
     }
 }

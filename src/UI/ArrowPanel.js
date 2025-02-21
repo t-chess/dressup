@@ -61,6 +61,7 @@ export default class ArrowPanel extends Phaser.GameObjects.Container {
             this.scene.input.setDefaultCursor("default"); 
             callback();
         });
+        return this
     }
     invertColors(mode='toggle') { // on / off / toggle
         if ((mode === 'on' && this.inverted) || (mode === 'off' && !this.inverted)) return;

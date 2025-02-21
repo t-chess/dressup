@@ -1,9 +1,8 @@
 import Phaser from "phaser";
 import Loading from "./scenes/Loading";
 import Main from "./scenes/Main";
-import Ending from "./scenes/Ending";
 import BootScene from "./UI/BootScene";
-import { Intro } from "./scenes/CutScenes";
+import { Intro,Ending } from "./scenes/CutScenes";
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,

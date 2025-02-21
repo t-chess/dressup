@@ -43,6 +43,9 @@ export default class Loading extends Phaser.Scene {
       {key: 'gailbottom', frameConfig: {frameWidth: 222, frameHeight:193}},
     ]);
 
+    this.load.image("end1", "end1.png");
+    this.load.image("end2", "end2.png");
+
     this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Main"));
     this.add.soundbutton();
   }

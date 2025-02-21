@@ -28,33 +28,33 @@ export default class Main extends Phaser.Scene {
         .setVisible(i > 1 ? false : true)
         .setPosition(320, 240);
     });
-
+    this.dump = this.add.group();
     // left side UI
-    this.hairbtn = this.add.panel(20, 110, "md", 3, 2, 20).setText("Hair").onClick(() => {
+    this.hairbtn = this.add.panel(20, 100, "md", 3, 2, 20).setText("Hair").onClick(() => {
       this.onNavClicked("hair");
     });
-    this.topbtn = this.add.panel(20, 190, "md", 3, 2, 20).setText("Tops").onClick(() => {
+    this.topbtn = this.add.panel(20, 180, "md", 3, 2, 20).setText("Tops").onClick(() => {
       this.onNavClicked("top");
     });
-    this.bottombtn = this.add.panel(20, 270, "md", 3, 2, 18).setText("Bottoms").onClick(() => {
+    this.bottombtn = this.add.panel(20, 260, "md", 3, 2, 18).setText("Bottoms").onClick(() => {
       this.onNavClicked("bottom");
     });
-    this.add.panel(20, 340, 'sm', 6, 2).setText("Background").onClick(() => {
+    this.dump.add(this.add.panel(20, 340, 'sm', 6, 2).setText("Background").onClick(() => {
       this.sound.play("ui_click");
       let next = this.gameState.bg + 1 > this.gameState.bgtotal-1 ? 0 : this.gameState.bg + 1;
       this["bg" + (this.gameState.bg+1)].setVisible(false);
       this["bg" + (next+1)].setVisible(true);
       this.gameState.bg = next;
-    })
-    this.arrowgail = this.add.arrowpanel(20, 400, 6, "Gail");
-    this.arrowgail.setVisible(true).onClick(()=>this.changeChar());
-    this.arrowmom = this.add.arrowpanel(20, 400, 6, "Mom", "left");
-    this.arrowmom.setVisible(false).onClick(()=>this.changeChar());
+    }),true)
+    this.arrowgail = this.add.arrowpanel(20, 400, 6, "Gail").setVisible(false).onClick(()=>this.changeChar());
+    this.arrowmom = this.add.arrowpanel(20, 400, 6, "Mom", "left").setVisible(false).onClick(()=>this.changeChar());
     //
 
     // right side UI
-    this.add.panel(500, 80, "md", 3, 4).invertColors();
-    this.add.panel(500, 240, "md", 3, 4).invertColors();
+    this.dump.addMultiple([
+      this.add.panel(500, 80, "md", 3, 4).invertColors(),
+      this.add.panel(500, 240, "md", 3, 4).invertColors()
+    ], true);
 
     // MOM
     this.add.image(250, 248, "bodies", "mother");
@@ -109,17 +109,17 @@ export default class Main extends Phaser.Scene {
 
 
     // arrows and sound 
-    this.add
+    this.dump.add(this.add
       .sprite(530, 420, "ui_atlas", "arrow-solo")
       .setFlipX(true)
       .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => this.changePreview("prev"));
-    this.add
+      .on("pointerdown", () => this.changePreview("prev")), true);
+    this.dump.add(this.add
       .sprite(590, 420, "ui_atlas", "arrow-solo")
       .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => this.changePreview("next"));
+      .on("pointerdown", () => this.changePreview("next")), true);
 
-    this.add.soundbutton();
+    this.dump.add(this.add.soundbutton(),true);
 
     this.sound.pauseOnBlur = false;
     this.music = this.sound.add("music");
@@ -129,29 +129,29 @@ export default class Main extends Phaser.Scene {
     this.btndone = this.add.panel(280, 410, "sm", 4, 2).setText('done').setVisible(false).onClick(() => {
       this.sound.play("ui_click");
       this.speechbox.setName("Gail");
-      if (!this.gameState.gail.top) {
-        this.speechbox.run("This sweater doesn't feel appropriate for the occasion");
+      if ([3,4].includes(this.gameState.gail.top)) {
+        this.speechbox.run("This colour doesn't feel appropriate for the occasion");
         return;
       }
-      if (this.gameState.gail.top===3) {
-        this.speechbox.run("Who the hell wears an old school uniform to a funeral?");
+      if (this.gameState.momtop===9 && this.gameState.mombottom === 2) {
+        this.speechbox.run("I don't think mom would have understood this joke");
         return;
       }
-      if (this.gameState.mom===4 && this.gameState.mombottom === 2) {
-        this.speechbox.run("I don't think mom would have understood this joke.");
-        return;
-      }
-      setTimeout(() => {
-        this.speechbox.run("It seems we're ready.", undefined, ()=>this.speechbox.run("Just one last thing to do."));
-        setTimeout(() => {
-          this.abigail.destroy();
-          setTimeout(() => {
-            this.initHand();
-          }, 500);
-        }, 7000);
-      }, 2000);
-    });
+      [
+        this.arrowgail,this.arrowmom,
+        this.hairbtn,this.topbtn,this.bottombtn,
+        this.btndone,this.chooseBtn,
+      ].forEach(o=>o.destroy());
+      Object.values(this.previews).forEach(p=>p.destroy());
+      this.dump.clear(true,true)
 
+      this.time.delayedCall(1000, ()=>{
+        this.speechbox.run("It seems we're ready.", undefined, ()=>{this.speechbox.run("Just one last thing to do.", undefined, ()=>{
+          [this.abigail,this.gailhair,this.gailtop,this.gailbottom].forEach(o=>o.destroy());
+          this.initHand();
+        })});
+      });
+    });
 
     this.speechbox = this.add.speechbox();
     this.onNavClicked("hair");
@@ -171,7 +171,7 @@ export default class Main extends Phaser.Scene {
     if (char==='gail'&&section==='top') {
       if (direction === "next"&&current === 2) {
         newIndex = 5;
-      } else if (current === 5) {
+      } else if (direction === "prev"&&current === 5) {
         newIndex = 2;
       }
       this.chooseBtn.setVisible(!this.gameState.gail.choice&&newIndex===2);
@@ -191,8 +191,7 @@ export default class Main extends Phaser.Scene {
     this.checkChange("preview");
   }
   checkChange(type) {
-    return
-    phrases[type].forEach((ph) => {
+    phrases[type].filter(ph=>!ph.skip).forEach((ph) => {
       let show;
       if (type === "preview") {
         if (this.gameState[ph.on[0]][ph.on[1]+'preview']===ph.on[2]) {
@@ -210,9 +209,10 @@ export default class Main extends Phaser.Scene {
       if (show) {
         function cap(val) {
           return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-        }      
+        }
         const arr = ph.text.map(str=>({character:cap(ph.on[0]),text:str}));
         this.speechbox.playDialogSequence(arr);
+        ph.skip = true;
       }
     });
   }
@@ -252,6 +252,25 @@ export default class Main extends Phaser.Scene {
     const selectedIndex = (char==='gail'&&section==='top'&&preview===2&&index) ? (this.gameState.gail.choice === "winter" ? 3 : 4) : (preview+index);
     this[char + section].setFrame(selectedIndex);
     this.gameState[char][section] = selectedIndex;
+    if (section === "top") {
+      if (char === "gail") {
+          if (selectedIndex === 6 && this.gameState.mom.top === 0) {
+              this.gameState.mom.top = 1; 
+              this.momtop.setFrame(1);
+          } else if (selectedIndex === 5 && this.gameState.mom.top === 8) {
+              this.gameState.mom.top = 1; 
+              this.momtop.setFrame(1);
+          }
+      } else {
+          if (selectedIndex === 0 && this.gameState.gail.top === 6) {
+              this.gameState.gail.top = 1; 
+              this.gailtop.setFrame(1);
+          } else if (selectedIndex === 8 && this.gameState.gail.top === 5) {
+              this.gameState.gail.top = 1;
+              this.gailtop.setFrame(1);
+          }
+      }
+    }
     this.checkChange("click");
   }
   changeChar() {
@@ -265,39 +284,49 @@ export default class Main extends Phaser.Scene {
     this.checkChange("preview");
   }
   initHand() {
+    let ending;
+    let mom = this.gameState.mom;
+    if ([8,9].includes(mom.hair) || [3,4,5].includes(mom.top)) {
+      ending = 1; //present
+    } else if ([2,11].includes(mom.hair) || [6].includes(mom.top)) {
+      ending = 2; //past
+    } else if (
+      [
+        [3,6,7].includes(mom.hair),
+        [1,2,7,8].includes(mom.top),
+        [1, 4].includes(mom.bottom),
+      ].filter(Boolean).length > 1
+    ) {
+      ending = 2;
+    } else {
+      ending = 1;
+    }
     this.hand = this.add.image(330, 65, "bodies", "hand").setInteractive({ cursor: "pointer" });
-    this.hand.on("pointerdown", () => {
-      this.hand.setInteractive(false);
-      // gameState.musicPause = {
-      //   play: this.music.isPlaying,
-      //   time: this.music.seek,
-      // };
-      // this.music.stop();
+    this.hand.once("pointerdown", () => {
+      this.music.pause();
       this.tweens.add({
         targets: this.hand,
         x: this.hand.x - 50,
         duration: 600,
       });
-      setTimeout(() => {
+      this.time.delayedCall(1000, ()=>{
         this.tweens.add({
           targets: this.hand,
           y: this.hand.y + 20,
           duration: 400,
         });
         this.eyes.visible = true;
-      }, 1000);
-      setTimeout(() => {
+      });
+      this.time.delayedCall(2000, ()=>{
         this.tweens.add({
           targets: this.hand,
           x: this.hand.x + 50,
           duration: 1000,
           onComplete: () => {
-            setTimeout(() => {
-              this.scene.start("Ending");
-            }, 1000);
+            this.time.delayedCall(1000, ()=>this.scene.start("Ending", {seek:this.music.seek,ending}))
           },
         });
-      }, 2000);
+      });
     });
   }
 }

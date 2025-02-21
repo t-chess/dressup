@@ -2,69 +2,70 @@
     "preview": [ 
         { 
             "on":["mom", "hair", 6],
-            "text": ["Ah i wish i had curly hair"] 
+            "text": ["Ah, I wish I had curly hair"] 
         },
         { 
-            "on":["mom", "top", 2],
-            "text": ["Do you have any idea what it's like to see your dreams die", "because of a single mistake?"]
+            "on":["gail", "top", 5], 
+            "text": ["You won't mind if I borrow something from your closet, right? I didn't have space to bring much with me."]
         },
         { 
-            "on":["gail", "top", 4],
-            "text": ["You won't mind if I borrow something from your closet, right?"]
+            "on": ["gail","bottom",2],
+            "text":["I don't want to think anymore. Let's just finish this."]
         }
     ],
     "click": [
         { 
-            "on":["mom", "hair",2],
-            "text":["Welcome home, Abigail.", "How was your time away?"]
+            "on":["mom", "hair",4],
+            "text":[ "Isn't it a wonderful, bittersweet feeling, when people say we look so much alike?"]  
         },
         { 
-            "on":["mom", "hair",3],
-            "text":[ "Isn't it a wonderful, bittersweet feeling","when people say we look so much alike?"]  
+            "on":["mom", "hair",2],
+            "text":[ "He liked my hair like this. Said I looked like a storybook girl."]  
         },
         { 
             "on":["mom", "hair",9],
-            "text":[ "This is where I feel closest to my old dreams","singing here in church.", "It's not the stage I imagined but it's a stage nonetheless."]  
+            "text":[ "This is where I feel closest to my old dreams - singing here in church.", "It's not the stage I imagined but it's a stage nonetheless."]  
         },
         { 
-            "on":["mom", "top",2],
-            "text": ["I gave up my entire future because of you,","and look what I got in return."] 
+            "on":["mom", "hair",11],
+            "text":[ "It's nice, isn't it? Almost like dressing up for something special."]  
+        },
+        { 
+            "on":["mom", "top",3],
+            "text": ["Do you have any idea what it's like to see your dreams die because of a single mistake?"]
         },
         {
             "on":["mom", "top",5],
-            "text":["Meanwhile, think about your behavior in the basement."]
+            "text":["There is no sin He cannot forgive.", "No sin He cannot forgive."]
+        },
+        { 
+            "on":["mom", "top", 6],
+            "text": ["I gave up my entire future because of you, and look what I got in return."] 
         },
         {
-            "on":["mom", "top",6],
-            "text":["O Lord hear the cry of a girl", "for years of silence and fear have birthed within her a fury", "vast and ancient like the storms of old.", "Grant her solace for her anger is now a tempest beyond words,","a grief that knows no comfort.","May she find peace in Your embrace and let her soul be healed.", "Amen"]
+            "on":["mom", "top",9],
+            "text":["Meanwhile, think about your behavior in the basement."]
         },
         { 
             "on":["mom", "bottom",2],
-            "text": ["I tried to love you, I really did."] 
-        },
-        { 
-            "on":["mom", "bottom",4],
-            "text":[ "Yet the cruel, inevitable, and irredeemable truth", "is that a mistake is exactly what you are."]
+            "text": ["But I tried to love you, I really did."] 
         },
         { 
             "on": ["gail","hair",3],
-            "text":[ "I'm so afraid of looking at myself in the mirror someday","and seeing your face staring back at me."]
+            "text":[ "I'm so afraid of looking at myself in the mirror someday and seeing your face staring back at me."]
         },
         { 
-            "on": ["gail","top",4],
-            "text":[ "My old school uniform. It doesn't fit anymore."]
+            "on": ["gail","hair",5],
+            "text":[ "Mourning looks good on me, don't you think?"]
         },
         { 
-            "on": ["gail","top",5],
-            "text":[ "I would gladly give you back my life", "so you could have yours", "But we don't always get what we want, do we?"]
-        },
-        { 
-            "on": ["gail","bottom",2],
-            "text":[ "Please stop yelling"]
+            "on": ["gail","top",6],
+            "text":[ "It's cold. Should've figured."]
         }
+        
     ],
     "end1": [
-        "\"Dear Abigail,",
+        "\"Dear Abigaïl,",
         "I know these words will never reach you, and it's far too late to offer any apology, but I write them nonetheless, as a final confession.",
         "The devil took hold of me, and I became everything a mother shouldn't be — a vessel of cruelty and bitterness, chained to the bottle and lost to my own despair.",
         "From the day you were born, my hands, which should have offered comfort, instead brought pain, and for long years, that pain was all I gave you.",

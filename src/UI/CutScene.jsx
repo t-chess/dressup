@@ -21,6 +21,7 @@ export default class CutScene extends Phaser.Scene {
       this.scenesArray = [];
     }
     setScenes(arr) {
+        this.sound.pauseOnBlur = false;
         this.scenesArray = arr;
         this.nextIndex = 0;
         this.scenesArray.forEach(scene => {

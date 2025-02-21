@@ -6,20 +6,24 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         this.options = [];
 
         this.currentLines = 2;
-        this.maxCharsPerLine = 63;
+        this.maxCharsPerLine = 60;
 
         this.init();
         this.setVisible(false);
         scene.add.existing(this);
     }
     init() {
+        this.overlay = this.scene.add.rectangle(0, 0, 640, 480, 0x000000, 0).setOrigin(0, 0).setInteractive();
+        this.overlay.setVisible(false);
+        this.scene.add.existing(this.overlay);
+
         this.box = this.scene.add.panel(0, -this.currentLines * 20, "sm", 30,this.currentLines).setStatic(true);
         this.add(this.box);
         
         this.textline = this.scene.add.text(20, -this.currentLines * 20 + 12, "", {
             font: "16px monospace",
             color: "#ffffff",
-            wordWrap: { width: 580, useAdvancedWrap: true },
+            wordWrap: { width: 560, useAdvancedWrap: true },
             lineSpacing: 2,
         }).setOrigin(0,0);
         this.add(this.textline);
@@ -108,6 +112,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     run(text, options=[], onComplete){
         this.clearOptions();
         this.setVisible(true);
+        this.overlay.setVisible(true);
         this.box.onClick(null);
         this.textline.setText(""); 
         this.nextBtn.setVisible(false);
@@ -127,6 +132,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
                     this.nextBtn.setVisible(true);
                     this.box.onClick(() => {
                         this.scene.sound.play("ui_click");
+                        this.overlay.setVisible(false);
                         this.setVisible(false);
                         if (onComplete) onComplete();
                     }, true);
@@ -143,6 +149,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
             optionPanel.onClick(() => {
                 this.scene.sound.play("ui_click");
                 this.clearOptions(); 
+                this.overlay.setVisible(false);
                 this.setVisible(false);
                 if (callback) callback();
                 if (optCallback) optCallback({text,...rest})
