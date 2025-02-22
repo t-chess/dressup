@@ -1,28 +1,30 @@
 export default class Panel extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, type='md', width, height, fontSize=16) {
+    constructor(scene, x, y, type='md', fontSize=16) {
         super(scene, x, y);
         this.scene = scene;
         this.type = type;
         this.tileSize = type==="sm"?20:40;
-        this.width = width;
-        this.height = height;
+        
         this.fontSize = fontSize;
         this.inverted = false;
         this.static = false;
+        this.clickable = false;
 
-        this.init();
         scene.add.existing(this);
     }
-    init() {
+    setSize(width, height) {
+        if (this.width===width&&this.height===height) return this
+        this.width = width;
+        this.height = height;
+
+        this.list.filter(child => child !== this.textObject).forEach(child => child.destroy());
         const addTile = (x, y, frame) => this.add(this.scene.add.image(x, y, "ui_atlas", frame).setOrigin(0));
 
-        let bg = this.scene.add.rectangle(
+        this.background = this.add(this.scene.add.rectangle(
             this.tileSize, this.tileSize, 
             (this.width - 2) * this.tileSize, (this.height - 2) * this.tileSize, 
             0x000000
-        ).setOrigin(0);
-        this.add(bg);
-        this.background = bg;
+        ).setOrigin(0));
 
         // Top 
         addTile(0, 0, `${this.type}-lt`);
@@ -43,6 +45,17 @@ export default class Panel extends Phaser.GameObjects.Container {
             addTile(i * this.tileSize, (this.height - 1) * this.tileSize, `${this.type}-b`);
         }
         addTile((this.width - 1) * this.tileSize, (this.height - 1) * this.tileSize, `${this.type}-rb`);
+
+        if (this.textObject) {
+            this.textObject.setWordWrapWidth((this.width - 1) * this.tileSize);
+            this.textObject.setPosition((this.width * this.tileSize) / 2, (this.height * this.tileSize) / 2);
+            this.bringToTop(this.textObject);
+        }
+        if (this.clickable) {
+            this.updateClickArea();
+        }
+
+        return this
     }
 
     setText(text) {
@@ -66,11 +79,15 @@ export default class Panel extends Phaser.GameObjects.Container {
         return this
     }
     onClick(callback, once) {
+        this.off("pointerdown");
         if (!callback) {
+            this.clickable = false;
             this.disableInteractive();
             return
         }
-        this.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.width * this.tileSize, this.height * this.tileSize), Phaser.Geom.Rectangle.Contains);
+        this.clickable = true;
+        this.updateClickArea();
+        
         this.on("pointerover", () => {
             this.scene.input.setDefaultCursor("pointer");
             if (!this.static) this.setPosition(this.x, this.y - 2);
@@ -102,6 +119,13 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.static = v;
         return this;
     }
-    
-
+    updateClickArea() {
+        const hit = new Phaser.Geom.Rectangle(0, 0, this.width * this.tileSize, this.height * this.tileSize);
+        const hitCb = Phaser.Geom.Rectangle.Contains;
+        if (this.input) {
+            this.input.hitArea = hit;
+            this.input.hitAreaCallback = hitCb; 
+        }
+        this.setInteractive(hit, hitCb);
+    }
 }

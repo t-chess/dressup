@@ -6,8 +6,8 @@ export default class Loading extends Phaser.Scene {
     this.load.setPath("assets");
     // load screen
     this.add.sprite(640, 480, "loadingBg").setPosition(320, 240);
-    this.add.panel(100,120,'md',11,2, 24).setText("Gail's Sweet Homecoming");
-    this.add.panel(40,200,'md',14,3).setText("After spending a few years away from her hometown, 19-year-old Abigaïl is finally visiting to reunite with her mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.")
+    this.add.panel(100,120,'md', 24).setSize(11,2).setText("Gail's Sweet Homecoming");
+    this.add.panel(40,200,'md').setSize(14,3).setText("After spending a few years away from her hometown, 19-year-old Abigaïl is finally visiting to reunite with her mother. As they prepare for a memorable evening together, help them choose the perfect outfits to make this reunion even more special.")
 
     // bgs & cutscenes
     Array.from({ length: 4 }, (_, i) => i + 1).forEach(
@@ -43,8 +43,8 @@ export default class Loading extends Phaser.Scene {
       {key: 'gailbottom', frameConfig: {frameWidth: 222, frameHeight:193}},
     ]);
 
-    this.load.image("end1", "end1.png");
-    this.load.image("end2", "end2.png");
+    this.load.image("end1", "scenes/end1.png");
+    this.load.image("end2", "scenes/end2.png");
 
     this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Intro"));
     this.add.soundbutton();

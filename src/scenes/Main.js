@@ -30,16 +30,16 @@ export default class Main extends Phaser.Scene {
     });
     this.dump = this.add.group();
     // left side UI
-    this.hairbtn = this.add.panel(20, 100, "md", 3, 2, 20).setText("Hair").onClick(() => {
+    this.hairbtn = this.add.panel(20, 100, "md", 20).setSize(3,2).setText("Hair").onClick(() => {
       this.onNavClicked("hair");
     });
-    this.topbtn = this.add.panel(20, 180, "md", 3, 2, 20).setText("Tops").onClick(() => {
+    this.topbtn = this.add.panel(20, 180, "md", 20).setSize(3,2).setText("Tops").onClick(() => {
       this.onNavClicked("top");
     });
-    this.bottombtn = this.add.panel(20, 260, "md", 3, 2, 18).setText("Bottoms").onClick(() => {
+    this.bottombtn = this.add.panel(20, 260, "md", 18).setSize(3,2).setText("Bottoms").onClick(() => {
       this.onNavClicked("bottom");
     });
-    this.dump.add(this.add.panel(20, 340, 'sm', 6, 2).setText("Background").onClick(() => {
+    this.dump.add(this.add.panel(20, 340, 'sm').setSize(6, 2).setText("Background").onClick(() => {
       this.sound.play("ui_click");
       let next = this.gameState.bg + 1 > this.gameState.bgtotal-1 ? 0 : this.gameState.bg + 1;
       this["bg" + (this.gameState.bg+1)].setVisible(false);
@@ -52,8 +52,8 @@ export default class Main extends Phaser.Scene {
 
     // right side UI
     this.dump.addMultiple([
-      this.add.panel(500, 80, "md", 3, 4).invertColors(),
-      this.add.panel(500, 240, "md", 3, 4).invertColors()
+      this.add.panel(500, 80, "md").setSize(3, 4).invertColors(),
+      this.add.panel(500, 240, "md").setSize(3, 4).invertColors()
     ], true);
 
     // MOM
@@ -90,7 +90,7 @@ export default class Main extends Phaser.Scene {
       this.previews[k].on('pointerdown', ()=>this.onPreviewClick(k.endsWith('b')?1:0))
     });
 
-    this.chooseBtn = this.add.panel(510, 270, "sm", 5, 5).setText("Check Gail's old clothes").setVisible(false).onClick(() => {
+    this.chooseBtn = this.add.panel(510, 270, "sm").setSize(5,5).setText("Check Gail's old clothes").setVisible(false).onClick(() => {
       this.speechbox.setName(null);
       const setTop = (type) => {
         this.gameState.gail.choice= type;
@@ -126,7 +126,7 @@ export default class Main extends Phaser.Scene {
     this.music.loop = true;
     this.music.play();
 
-    this.btndone = this.add.panel(280, 410, "sm", 4, 2).setText('done').setVisible(false).onClick(() => {
+    this.btndone = this.add.panel(280, 410, "sm").setSize(4,2).setText('done').setVisible(false).onClick(() => {
       this.sound.play("ui_click");
       this.speechbox.setName("Gail");
       if ([3,4].includes(this.gameState.gail.top)) {

@@ -58,8 +58,8 @@ export class Intro extends CutScene {
                         character: "Smoker",
                         text: "Huh... You look really familiar. Do I know you?",
                         options: [
-                            { text: "...", after: "response-continue", response: [{character: "Smoker",text:"Ah yes, AAA's kiddie, right?"}] },
-                            { text: "I don't think so.", after: "response-continue", response: [{character: "Smoker",text:"Nah, I recognize that face. AAA's kiddie, right?"}] },
+                            { text: "...", after: "response-continue", response: [{character: "Smoker",text:"Ah yes, Viviane's kiddie, right?"}] },
+                            { text: "I don't think so.", after: "response-continue", response: [{character: "Smoker",text:"Nah, I recognize that face. Viviane's kiddie, right?"}] },
                             { text: "Maybe. I grew up here.", after: "response-continue", response: [{character: "Smoker",text:"Thought so. You look just like her."}] }
                         ]
                     },
@@ -117,17 +117,20 @@ export class Ending extends CutScene {
     }
     init({ending,seek}) {
         const dialog = phrases["end"+ending].map(string=>({text:string}));
+        const outro = ending === 1 ?
+        "Among the other nuns, she blended in perfectly. No one questioned it. The ceremony was quiet, orderly—just as it should be. Just as she would have wanted.":
+        "Her outfit didn't quite match the setting. Some people frowned, but a few old friends understood. Either way, it was over now."
         this.setScenes([
             {
-                dialog:[{text:`While Abigaïl was sorting through old things and getting ready for the ceremony, she found ${this.ending === 1 ? "a" : "an old"} photograph with a handwritten note on the back.`}]
+                dialog:[{text:`While Abigaïl was sorting through old things and getting ready for the ceremony, she found ${ending === 1 ? "a fairly new" : "an old"} photograph with a handwritten note on the back.`}]
             },
             {
                 bgKey: "end"+ending,
-                dialog
+                dialog: [...dialog, {character: `Ending reached: ${ending === 1?"The Present She Chose":"A Memory of the Past"}`, text:outro}]
             },
             {
                 delay:2000,
-                dialog: [{character:'Morry',text:"Thanks for playing <3"},{text:'credits credits credits'}]
+                dialog: [{text:"credits"},{character:'Morry',text:"Thanks for playing <3"}]
             }
         ])
         this.music = this.sound.add("music");
@@ -135,7 +138,6 @@ export class Ending extends CutScene {
         this.music.play({seek});
     }
     create() {
-        this.add.soundbutton();
         this.cameras.main.fadeIn(500, 0, 0, 0);
         this.onEnd(()=>{
             this.cameras.main.fadeOut(500, 0, 0, 0);

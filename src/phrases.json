@@ -44,7 +44,7 @@
         },
         {
             "on":["mom", "top",9],
-            "text":["Meanwhile, think about your behavior in the basement."]
+            "text":["Go hide in the basement if you want to cry. That's where people leave their garbage anyway."]
         },
         { 
             "on":["mom", "bottom",2],
@@ -72,7 +72,7 @@
         "You were right to leave, and in truth, I never wanted you to stay.",
         "I have confessed my sins and sought refuge in the Lord, though I fear His mercy is beyond my reach.",
         "May God grant you the peace I never could.",
-        "Mother\""
+        "Your mother, Viviane\""
     ],
     "end2": [
         "\"Once upon a time, there lived a young maiden with a heart full of dreams, a voice more charming than the morning birds, and a spirit that radiated joy.",

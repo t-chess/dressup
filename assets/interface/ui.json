@@ -1,6 +1,6 @@
 {
   "frames": [
-    { "filename": "speechline", "frame": { "x": 0, "y": 0, "w": 600, "h": 40 } },
+    { "filename": "speechbox2", "frame": { "x": 0, "y": 0, "w": 600, "h": 40 } },
     { "filename": "md-lb", "frame": { "x": 0, "y": 40, "w": 40, "h": 40 } },
     { "filename": "md-b", "frame": { "x": 40, "y": 40, "w": 40, "h": 40 } },
     { "filename": "md-rb", "frame": { "x": 80, "y": 40, "w": 40, "h": 40 } },
@@ -21,10 +21,12 @@
     { "filename": "sm-lb", "frame": { "x": 520, "y": 60, "w": 20, "h": 20 } },
     { "filename": "sm-rb", "frame": { "x": 540, "y": 60, "w": 20, "h": 20 } },
     { "filename": "sm-b", "frame": { "x": 560, "y": 60, "w": 20, "h": 20 } },
-    { "filename": "sm-r", "frame": { "x": 580, "y": 60, "w": 20, "h": 20 } }
+    { "filename": "sm-r", "frame": { "x": 580, "y": 60, "w": 20, "h": 20 } },
+    { "filename": "speechbox3", "frame": { "x": 0, "y": 80, "w": 600, "h": 60 } },
+    { "filename": "speechbox4", "frame": { "x": 0, "y": 140, "w": 600, "h": 80 } }
   ],
   "meta": {
     "image": "ui.png",
-    "size": {"w":600,"h":80}
+    "size": {"w":600,"h":220}
   }
 }
