@@ -130,7 +130,7 @@ export class Ending extends CutScene {
             },
             {
                 delay:2000,
-                dialog: [{text:"credits"},{character:'Morry',text:"Thanks for playing <3"}]
+                dialog: [{character:'Morry',text:"Thanks for playing <3 And stay tuned for the next episode!"},{text:"Freesound audios: @nicpressley, @Nox_Sound, @AudioWay, @WhiteLineFever"}]
             }
         ])
         this.music = this.sound.add("music");

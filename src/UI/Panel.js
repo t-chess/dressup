@@ -20,11 +20,13 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.list.filter(child => child !== this.textObject).forEach(child => child.destroy());
         const addTile = (x, y, frame) => this.add(this.scene.add.image(x, y, "ui_atlas", frame).setOrigin(0));
 
-        this.background = this.add(this.scene.add.rectangle(
+        let bg = this.scene.add.rectangle(
             this.tileSize, this.tileSize, 
             (this.width - 2) * this.tileSize, (this.height - 2) * this.tileSize, 
             0x000000
-        ).setOrigin(0));
+        ).setOrigin(0);
+        this.background = bg;
+        this.add(bg)
 
         // Top 
         addTile(0, 0, `${this.type}-lt`);
@@ -79,22 +81,23 @@ export default class Panel extends Phaser.GameObjects.Container {
         return this
     }
     onClick(callback, once) {
-        this.off("pointerdown");
         if (!callback) {
             this.clickable = false;
             this.disableInteractive();
             return
         }
+
+        this.off("pointerdown");
         this.clickable = true;
         this.updateClickArea();
         
         this.on("pointerover", () => {
             this.scene.input.setDefaultCursor("pointer");
-            if (!this.static) this.setPosition(this.x, this.y - 2);
+            if (!this.static) this.setPosition(this.x, this.y - 1);
         });
         this.on("pointerout", () => {
             this.scene.input.setDefaultCursor("default"); 
-            if (!this.static) this.setPosition(this.x, this.y + 2);
+            if (!this.static) this.setPosition(this.x, this.y + 1);
         });
         const f = () => {
             this.scene.sound.play("ui_click");
@@ -106,11 +109,21 @@ export default class Panel extends Phaser.GameObjects.Container {
     }
     invertColors(mode='toggle') {
         if ((mode === 'on' && this.inverted) || (mode === 'off' && !this.inverted)) return;
-        this.list.forEach(child => {
-            if (child.preFX) {
-                child.preFX.addColorMatrix().negative();           
+        if (!this.colorMatrixEffects) {
+            this.colorMatrixEffects = this.list
+                .filter(child => child.preFX)
+                .map(child => {
+                    return { child, effect: child.preFX.addColorMatrix() };
+                });
+        }
+        this.colorMatrixEffects.forEach(({ effect }) => {
+            if (this.inverted) {
+                effect.saturate();
+            } else {
+                effect.negative();
             }
         });
+
         this.background.setFillStyle(this.background.fillColor === 0x000000 ? 0xffffff : 0x000000);
         this.inverted = !this.inverted; 
         return this

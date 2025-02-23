@@ -3,6 +3,9 @@ import phrases from "../phrases.json";
 export default class Main extends Phaser.Scene {
   constructor() {
     super("Main");
+    this.gameState = {};
+  }
+  create() {
     this.gameState = {
       currentChar: "mom",
       currentSection: "",
@@ -18,10 +21,10 @@ export default class Main extends Phaser.Scene {
         top:0, toppreview:0, toptotal: 7, choice: null,
         bottom:0, bottompreview:0, bottomtotal: 4,
       }
+    };
+    phrases.preview.forEach(p=>p.skip=false);
+    phrases.click.forEach(p=>p.skip=false);
 
-    }
-  }
-  create() {
     Array.from({ length: 4 }, (_, i) => i + 1).forEach((i) => {
       this["bg" + i] = this.add
         .sprite(640, 480, "bg" + i)
@@ -91,7 +94,6 @@ export default class Main extends Phaser.Scene {
     });
 
     this.chooseBtn = this.add.panel(510, 270, "sm").setSize(5,5).setText("Check Gail's old clothes").setVisible(false).onClick(() => {
-      this.speechbox.setName(null);
       const setTop = (type) => {
         this.gameState.gail.choice= type;
         if (this.gameState.currentChar==='gail'&&this.gameState.currentSection==='top'&&this.gameState.gail.toppreview===2) {
@@ -232,6 +234,7 @@ export default class Main extends Phaser.Scene {
       this.previews[who+type+'t'].setFrame(current);
       this.previews[who+type+'b'].setFrame(current+1);
       this.gameState.currentSection = type;
+      this.chooseBtn.setVisible(false);
     }
     ["hair","top","bottom"].forEach(section => {
       this[section+'btn'].invertColors(this.gameState.currentSection===section?'on':'off');

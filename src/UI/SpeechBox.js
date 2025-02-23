@@ -29,7 +29,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         }).setOrigin(0,0);
         this.add(this.textline);
 
-        this.nextBtn = this.scene.add.text(580, -18, "▶", {
+        this.nextBtn = this.scene.add.text(580, -20, "▶", {
             font: "16px monospace",
             color: "#ffffff",
         })
@@ -124,31 +124,38 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         this.updateBoxSize(text);
         let index = 0;
         let currentText = "";
-        const typeWriter = () => {
-            if (index < text.length) {
-                currentText += text[index];
-                this.textline.setText(currentText);
-                index++;
-                this.scene.time.delayedCall(this.typingSpeed, typeWriter);
-            } else {
-                if (options.length > 0) {
-                    this.showOptions(options,onComplete);
+        if (this.typewriterTimer) {
+            this.typewriterTimer.remove(false);
+        }
+        this.typewriterTimer = this.scene.time.addEvent({
+            delay: this.typingSpeed,
+            loop: true, 
+            callback: () => {
+                if (index < text.length) {
+                    currentText += text[index];
+                    index++;
+                    this.textline.setText(currentText);
                 } else {
-                    this.nextBtn.setVisible(true);
-                    this.box.setInteractive({cursor:"pointer"}).once("pointerdown",() => {
-                        this.scene.sound.play("ui_click");
-                        this.overlay.setVisible(false);
-                        this.setVisible(false);
-                        if (onComplete) onComplete();
-                    });
+                    this.typewriterTimer.remove(false);
+                    if (options.length > 0) {
+                        this.showOptions(options, onComplete);
+                    } else {
+                        this.nextBtn.setVisible(true);
+                        this.box.removeAllListeners("pointerdown");
+                        this.box.setInteractive({ cursor: "pointer" }).once("pointerdown", () => {
+                            this.scene.sound.play("ui_click");
+                            this.overlay.setVisible(false);
+                            this.setVisible(false);
+                            if (onComplete) onComplete();
+                        });
+                    }
                 }
-            }
-        };
-        typeWriter();
+            }    
+        })
     }
     showOptions(options,optCallback) {
         let yOffset = this.currentLines * 20;
-        options.reverse().forEach(({ text, callback, ...rest }, index) => {
+        [...options].reverse().forEach(({ text, callback, ...rest }, index) => {
             const w = Math.max(3, Math.ceil(text.length/2)+2);
             this.options[index].setSize(w, 2).setText(text).setPosition(600 - w * 20, -40 - yOffset).setVisible(true).onClick(() => {
                 this.scene.sound.play("ui_click");
@@ -164,7 +171,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     hideOptions(){
         this.options.forEach(option => {
             option.setVisible(false);
-            option.disableInteractive();
+            option.onClick(null);
         });
     }
 
